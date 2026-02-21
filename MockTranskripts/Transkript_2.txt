@@ -1,0 +1,65 @@
+Hackeurope dublin additional transcripts · MDCopiarHackEurope Dublin — Operations & Marketing Sync
+Date: February 23, 2026
+Participants:
+
+Tim Tay — Head of Operations
+Reuban Ramsden — Head of Marketing
+Manon Galian — Head of Community
+Rachel Ranjith — Outreach
+Faith Olopade — Outreach
+
+
+Tim: Hey everyone, thanks for hopping on. Geoffrey and Cian briefed me on the admissions plan two days ago and we're now in execution mode. Luke and Ishaan delivered the clean applicant spreadsheet this morning — we have 412 valid applications for Dublin. My job now is to coordinate the review panel and hand things off to you all for the communications push. Let's talk through what each of you needs to do.
+Reuban: Great. What's my timeline looking like?
+Tim: Tight. I'm running the review panel this week with Manon's help. Manon, I need you to go through the spreadsheet and tag every applicant who came through a community channel — Discord, campus ambassador referrals, any of the outreach events you and the team ran. Can you get that done by Wednesday?
+Manon: Wednesday works. I already have a list of about 60 people who signed up through our Discord campaigns. I'll cross-reference by email and flag them in the sheet. Should I add a column or a separate tab?
+Tim: Add a column — label it "Community Source" and put the channel name. That way reviewers can see it inline. Once you've done that, send me a Slack message confirming it's ready. I'll notify the review panel to start scoring.
+Manon: Got it. And just to confirm — we're weighting community-sourced applicants higher?
+Tim: Not automatically higher, but it's a tiebreaker factor. If two applicants score the same, the one who engaged with our community gets the edge. Geoffrey approved that approach.
+Manon: Makes sense. I'll have it done by Wednesday evening and ping you on Slack.
+
+Tim: Good. Now, Reuban — while the review is happening, I need you to prepare three email templates: acceptance, waitlist, and rejection. Each one should be on-brand, warm, and include the key logistics.
+Reuban: Sure. What details need to go in the acceptance email specifically?
+Tim: The acceptance email needs to include: the event date and venue address in Dublin, a link to the RSVP confirmation form, a deadline to RSVP (I'll confirm the exact date but plan for 5 days after send), and a note that they'll receive a dietary preferences survey after confirming. The waitlist email should set expectations — tell them their position range without being too specific, and that we'll notify them if a spot opens. The rejection email should be encouraging — thank them, point them to future HackEurope events, and invite them to join our community Discord.
+Reuban: Got it. I'll draft all three and send them to you and Cian for review. Should I CC Geoffrey?
+Tim: Yes, CC Geoffrey on the drafts. He wants eyes on the rejection email specifically — he's particular about tone there. Aim to have drafts ready by Friday, so we can review over the weekend and be ready to send Monday.
+Reuban: Friday it is. I'll share them as a Google Doc with comment access for everyone on this call.
+
+Tim: Perfect. Now — Rachel, Faith — once Reuban's templates are approved, you two are on send duty. Here's how I want it structured.
+Rachel: Ready.
+Tim: We'll be sending to roughly 412 people. Based on past events and venue capacity, I'm estimating we'll accept around 200, waitlist about 100, and reject the rest. You'll send acceptances first on Monday morning — I want them out by 10 AM Dublin time so people see them at the start of their day. Waitlist emails go out Monday afternoon. Rejections go out Tuesday morning — we stagger so our inbox doesn't explode all at once.
+Faith: Makes sense. Are we sending through Mailchimp or directly?
+Tim: Mailchimp for the bulk send — Reuban, make sure the templates are set up there, not just in a Doc. Rachel and Faith, you'll do a test send to yourselves and to me before the real send goes out. I want to catch any broken links or formatting issues.
+Rachel: Will do. And after they go out — what's the monitoring plan?
+Tim: This is critical. Once acceptances are sent, you two need to monitor RSVPs daily. I'm setting up a shared tracker — a simple Google Sheet with columns for name, email, RSVP status, and date confirmed. Every evening by 6 PM, one of you updates the sheet and posts the current RSVP count in the #dublin-ops Slack channel. Tag me in the message.
+Faith: Should we split the list between us or both monitor the whole thing?
+Tim: Split it alphabetically — Rachel takes A through L, Faith takes M through Z. That way there's clear ownership and no duplicates. If either of you spots a bounce-back or a suspicious email, flag it immediately — don't wait for the evening update.
+Rachel: And if someone on the waitlist reaches out asking about their status?
+Tim: Direct them to a templated response — Reuban, can you also draft a short "waitlist FAQ" response that Rachel and Faith can copy-paste?
+Reuban: Sure, I'll include it in the same Google Doc with the email templates.
+Tim: Great. Now, the RSVP deadline will be 5 days after the acceptance emails go out. On the day after the deadline, I lock the final headcount. That number goes to every department head — it triggers the bracelet order and the pizza order. So your daily tracking directly impacts those workstreams. No pressure.
+Faith: laughs No pressure at all. We'll stay on top of it.
+
+Tim: One more thing — Manon, once we start getting RSVPs, I want you to post a community update on Discord. Something like "Admissions decisions are out — check your email!" It drives urgency and catches anyone whose email went to spam.
+Manon: Love that. I'll prepare a post and a story graphic. Reuban, can your team give me a branded template for the announcement?
+Reuban: Yeah, I'll ask Emer's team for a quick social asset. I'll have it to you by Sunday so it's ready for Monday's send.
+Manon: Perfect. I'll also monitor the Discord for any confused applicants and redirect them to Rachel and Faith if they have RSVP issues.
+Tim: That's exactly the kind of coordination I want. So to recap the sequence and reporting:
+
+Manon tags community applicants in the spreadsheet → confirms to Tim on Slack by Wednesday
+Tim runs the review panel → delivers ranked list to Geoffrey and Cian by Sunday
+Reuban drafts email templates + waitlist FAQ → shares Google Doc with Tim, Cian, Geoffrey by Friday
+Reuban sets up templates in Mailchimp → test sends to Rachel, Faith, and Tim by Sunday
+Rachel & Faith send acceptances Monday 10 AM, waitlists Monday PM, rejections Tuesday AM
+Rachel & Faith update RSVP tracker daily by 6 PM → post count in #dublin-ops tagging Tim
+Manon posts community announcement on Discord Monday morning
+Tim locks headcount the day after the RSVP deadline → notifies all department heads
+
+Tim: Any questions?
+Rachel: Clear from my side.
+Faith: Same here.
+Reuban: All good. Friday for drafts, Sunday for Mailchimp setup.
+Manon: Wednesday for tagging, Monday for the Discord push.
+Tim: Brilliant. Let's execute. I'll check in with each of you at your deadlines. Thanks, everyone.
+
+End of call.

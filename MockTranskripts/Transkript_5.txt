@@ -1,0 +1,69 @@
+HackEurope Dublin — Board Review & Escalation Meeting
+Date: March 8, 2026
+Participants:
+
+Geoffrey Duan — Director
+Cian McGlynn — Chair
+Billy Ly — Head of Sponsor Relations
+Calista Kuan — Board Member
+Tim Farrelly — Board Member
+Oisín Curran — Board Member
+
+
+Geoffrey: Thank you all for joining. I'm calling this meeting because we've hit the 10-day checkpoint on sponsor outreach and we need Board involvement. Billy, give us the status.
+Billy: Sure. We sent the first wave of outreach emails on Tuesday, February 25th — 8 personalised pitches across tech companies, local Dublin businesses, and one EU organisation. Here's where we stand:
+
+3 companies responded positively and we've had intro calls. One — a Dublin-based fintech — is very close to committing at the Silver tier (€5,000). Aryaman and I are in contract discussions with them now.
+2 companies declined — one has a policy against hackathon sponsorship, the other already committed their Q1 budget elsewhere.
+3 companies haven't responded at all despite two follow-ups each.
+
+So we potentially have one sponsor nearly closed, but we still need a second sponsor and none of the remaining pipeline looks warm.
+Geoffrey: That's why I've escalated to the Board. We need your networks. Let me set the parameters: we need at least one more sponsor at Bronze (€3,000) or above. The event is in 13 days. That means any prospect needs to be able to make a decision within a week.
+
+Calista: I have a contact at a climate-tech accelerator based in London with a Dublin satellite office. They've sponsored university events before and they move fast — small team, one decision-maker. I can make a warm introduction by email today.
+Billy: That would be incredible. What tier do you think they'd go for?
+Calista: Probably Bronze. They're not a huge company but they value visibility with young engineers. The €3,000 Bronze package with logo placement and a 2-minute speaking slot during opening ceremonies would appeal to them.
+Geoffrey: Calista, please make the introduction today. Frame it as time-sensitive — we need a decision within 7 days. CC Billy on the email so he can pick up the conversation from there.
+Calista: Will do. I'll send it within the hour and confirm to Billy on Slack once it's out.
+
+Tim Farrelly: I might have something too. I sit on an advisory board for a SaaS company that's been looking to break into the European student market. They've asked me before about sponsorship opportunities and I kept meaning to connect them. This could be a Silver-tier fit.
+Billy: That would put us over target if it lands. What's the decision-making process like on their end?
+Tim Farrelly: Typically their marketing director approves sponsorships under €10,000 without board sign-off, so it should be quick. I'll email their marketing director today with the one-pager and highlight reel. Billy, can you send me the latest pitch deck and the video Mario put together?
+Billy: Sending it to you right now — check your email in five minutes. The deck is the final version Emer designed, approved by Geoffrey on Monday.
+Tim Farrelly: Got it. I'll send my outreach today and aim to have a response by Wednesday. If they're interested, I'll loop in Billy and Aryaman for the specifics and contract.
+Geoffrey: Perfect. Same as Calista — CC Billy on the initial outreach so there's continuity.
+
+Oisín: I don't have a direct lead right now, but I know two people in Dublin's startup ecosystem who are extremely well-connected — one runs a co-working space and the other is a VC associate. Neither would sponsor directly, but they could connect us to companies that would. Should I reach out to them?
+Geoffrey: Yes, but let's be strategic about it. Oisín, I want you to reach out to both contacts today and ask specifically: "Do you know any company that would sponsor a 200-person student hackathon in Dublin within the next 10 days for €3,000–€7,000?" Be direct about the timeline and the ask. If they surface a lead, route it to Billy immediately.
+Oisín: I'll send those messages today — probably WhatsApp since I have a casual relationship with both. If either comes back with a name, I'll introduce them to Billy by email within 24 hours.
+Billy: Great. I'll keep the CRM tracker updated with all Board-sourced leads tagged separately so we can see the pipeline clearly.
+
+Geoffrey: Good. Now let me talk about reporting for this phase. The normal weekly cadence isn't fast enough anymore. Here's what I want:
+Billy — you update the #dublin-sponsors Slack channel every day at 5 PM with status on all active prospects, including the Board-sourced ones. Tag me, Cian, and whichever Board member originated the lead.
+Calista, Tim, Oisín — once you've made your introductions, your main job is done unless the prospect needs a second nudge from a personal connection. If Billy tells you a follow-up from you would help, please respond within 24 hours.
+Aryaman — I know you're not on this call, but Cian, please relay: the moment any sponsor verbally commits, Aryaman needs to send the contract within 4 hours. We can't lose momentum. He already has the template ready.
+Cian: I'll brief Aryaman right after this call.
+Geoffrey: And Reuban needs to know the second we close a sponsor — he has co-branded social posts and website updates queued and ready to publish. Billy, make sure Reuban is in the notification chain.
+Billy: Already is. He's set up draft posts for three possible scenarios — one new sponsor, two new sponsors, or a last-minute addition. Smart guy.
+
+Geoffrey: Let me summarise the actions and sequence:
+
+Calista sends warm intro to climate-tech accelerator → today, within the hour → CC Billy
+Tim Farrelly sends outreach to SaaS company marketing director → today → CC Billy → aims for response by Wednesday
+Oisín contacts two Dublin ecosystem connectors via WhatsApp → today → routes any leads to Billy within 24 hours
+Billy follows up on all Board-sourced leads within 24 hours of introduction → updates #dublin-sponsors daily at 5 PM
+Billy continues pursuing the near-closed fintech deal with Aryaman → target: signed contract by Wednesday
+On any verbal commitment → Billy notifies Geoffrey, Cian, Reuban immediately → Aryaman sends contract within 4 hours
+Day 17 checkpoint (Friday, March 13): Geoffrey reviews overall sponsor status. If we still haven't closed the second sponsor, we discuss budget contingency with Aryaman and potentially scale back the after-party.
+
+Cian: And I'll make sure the Dublin venue team knows our sponsor count so they can prepare the right number of booth spaces and signage slots.
+Geoffrey: That's a good point — Cian, keep Tim Tay in the loop on booth logistics as numbers change.
+Cian: Will do.
+Geoffrey: Any final questions?
+Calista: No — sending my email now.
+Tim Farrelly: Same. Let's close this out.
+Oisín: On it. Fingers crossed for a quick turnaround.
+Billy: Thanks for the support, everyone. I'll keep the tracker humming.
+Geoffrey: Great. Let's get those sponsors. Talk to you all in the daily updates.
+
+End of call.
