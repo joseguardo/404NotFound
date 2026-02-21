@@ -11,6 +11,7 @@ import {
   deserializeState,
   SerializedNexusState,
 } from "../types";
+import { api } from "@/services/api";
 
 const STORAGE_KEY = "nexus-state";
 
@@ -56,65 +57,34 @@ interface UseNexusStateReturn {
   exportData: () => string;
   importData: (json: string) => boolean;
   resetToSeed: () => void;
+  resetToEmpty: () => void;
+
+  // Cloud sync actions
+  saveToCloud: (companyId: number) => Promise<boolean>;
+  loadFromCloud: (companyId: number) => Promise<boolean>;
 }
 
-export function useNexusState(): UseNexusStateReturn {
-  // Load initial state from localStorage or use seed data
+export function useNexusState(initialDepartments?: Department[]): UseNexusStateReturn {
+  // Load initial state: use provided initial departments, or localStorage, or empty
   const [departments, setDepartments] = useState<Department[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const data: SerializedNexusState = JSON.parse(stored);
-        return data.departments;
-      }
-    } catch (e) {
-      console.warn("Failed to load state from localStorage:", e);
+    // If initial departments are provided, use them
+    if (initialDepartments !== undefined) {
+      return initialDepartments;
     }
-    return SEED_DEPARTMENTS;
-  });
-
-  const [connections, setConnections] = useState<Connection[]>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const data: SerializedNexusState = JSON.parse(stored);
-        return data.connections;
-      }
-    } catch (e) {
-      // Already warned above
-    }
+    // Otherwise, this is likely a demo/standalone mode - don't load anything
     return [];
   });
 
-  const [nodePositions, setNodePositions] = useState<Map<string, NodePosition>>(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const data: SerializedNexusState = JSON.parse(stored);
-        return new Map(data.nodePositions);
-      }
-    } catch (e) {
-      // Already warned above
-    }
-    return new Map();
-  });
+  const [connections, setConnections] = useState<Connection[]>([]);
+
+  const [nodePositions, setNodePositions] = useState<Map<string, NodePosition>>(
+    new Map()
+  );
 
   const [expandedDepts, setExpandedDepts] = useState<Set<string>>(new Set());
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
   const [view, setView] = useState<ViewMode>("hierarchy");
-
-  // Persist state to localStorage
-  useEffect(() => {
-    try {
-      const serialized = JSON.stringify(
-        serializeState({ departments, connections, nodePositions })
-      );
-      localStorage.setItem(STORAGE_KEY, serialized);
-    } catch (e) {
-      console.warn("Failed to save state to localStorage:", e);
-    }
-  }, [departments, connections, nodePositions]);
 
   // Compute initial positions for departments and people when they change
   useEffect(() => {
@@ -342,6 +312,45 @@ export function useNexusState(): UseNexusStateReturn {
     setSelectedDept(null);
   }, []);
 
+  const resetToEmpty = useCallback(() => {
+    setDepartments([]);
+    setConnections([]);
+    setNodePositions(new Map());
+    setExpandedDepts(new Set());
+    setSelectedPerson(null);
+    setSelectedDept(null);
+  }, []);
+
+  // Cloud sync actions
+  const saveToCloud = useCallback(
+    async (companyId: number): Promise<boolean> => {
+      try {
+        await api.saveStructure(companyId, departments);
+        return true;
+      } catch (e) {
+        console.error("Failed to save to cloud:", e);
+        return false;
+      }
+    },
+    [departments]
+  );
+
+  const loadFromCloud = useCallback(async (companyId: number): Promise<boolean> => {
+    try {
+      const cloudDepartments = await api.loadStructure(companyId);
+      setDepartments(cloudDepartments);
+      setConnections([]);
+      setNodePositions(new Map());
+      setExpandedDepts(new Set());
+      setSelectedPerson(null);
+      setSelectedDept(null);
+      return true;
+    } catch (e) {
+      console.error("Failed to load from cloud:", e);
+      return false;
+    }
+  }, []);
+
   return {
     // Data
     departments,
@@ -384,5 +393,10 @@ export function useNexusState(): UseNexusStateReturn {
     exportData,
     importData,
     resetToSeed,
+    resetToEmpty,
+
+    // Cloud sync actions
+    saveToCloud,
+    loadFromCloud,
   };
 }

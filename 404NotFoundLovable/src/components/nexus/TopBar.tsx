@@ -1,7 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Orbit, LayoutGrid, Building2, Users, Link2, GitBranch } from "lucide-react";
+import {
+  Plus,
+  Orbit,
+  LayoutGrid,
+  Building2,
+  Users,
+  Link2,
+  GitBranch,
+  ArrowLeft,
+  Save,
+  Loader2,
+} from "lucide-react";
 import { ViewMode } from "./types";
 
 interface TopBarProps {
@@ -11,6 +22,10 @@ interface TopBarProps {
   view: ViewMode;
   onViewChange: (view: ViewMode) => void;
   onCreateClick: () => void;
+  companyName?: string;
+  onBack?: () => void;
+  onSave?: () => void;
+  isSaving?: boolean;
 }
 
 export function TopBar({
@@ -20,30 +35,53 @@ export function TopBar({
   view,
   onViewChange,
   onCreateClick,
+  companyName,
+  onBack,
+  onSave,
+  isSaving = false,
 }: TopBarProps) {
   return (
-    <header className="flex items-center justify-between px-6 py-3 border-b bg-card shrink-0">
-      {/* Left side - Logo and stats */}
+    <header className="flex items-center justify-between px-6 py-3 border-b border-border bg-card/95 backdrop-blur-sm shrink-0">
+      {/* Left side - Back, Company Name, and stats */}
       <div className="flex items-center gap-4">
-        <h1 className="text-xl font-bold tracking-tight">Nexus</h1>
+        {onBack && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onBack}
+            className="gap-1.5 text-muted-foreground hover:text-foreground"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span className="hidden sm:inline">Back</span>
+          </Button>
+        )}
 
-        <Separator orientation="vertical" className="h-6" />
+        <div className="flex items-center gap-2">
+          <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+          <h1 className="text-base font-semibold tracking-widest uppercase text-primary">
+            {companyName || "Nexus"}
+          </h1>
+        </div>
 
-        <div className="flex items-center gap-4 text-sm text-muted-foreground">
+        <Separator orientation="vertical" className="h-4" />
+
+        <div className="flex items-center gap-4 text-xs text-muted-foreground font-mono">
           <div className="flex items-center gap-1.5">
-            <Building2 className="h-3.5 w-3.5" />
+            <Building2 className="h-3 w-3" />
             <span>
-              {totalDepts} dept{totalDepts !== 1 ? "s" : ""}
+              {totalDepts} <span className="hidden sm:inline">dept{totalDepts !== 1 ? "s" : ""}</span>
             </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Users className="h-3.5 w-3.5" />
-            <span>{totalPeople} people</span>
+            <Users className="h-3 w-3" />
+            <span>
+              {totalPeople} <span className="hidden sm:inline">people</span>
+            </span>
           </div>
           <div className="flex items-center gap-1.5">
-            <Link2 className="h-3.5 w-3.5" />
+            <Link2 className="h-3 w-3" />
             <span>
-              {totalConns} path{totalConns !== 1 ? "s" : ""}
+              {totalConns} <span className="hidden sm:inline">path{totalConns !== 1 ? "s" : ""}</span>
             </span>
           </div>
         </div>
@@ -56,44 +94,61 @@ export function TopBar({
           value={view}
           onValueChange={(value) => value && onViewChange(value as ViewMode)}
           aria-label="View mode"
+          className="border border-border rounded p-0.5"
         >
           <ToggleGroupItem
             value="hierarchy"
             aria-label="Hierarchy view"
-            className="gap-1.5"
+            className="gap-1.5 rounded-sm text-xs data-[state=on]:bg-primary/10 data-[state=on]:text-primary"
           >
-            <GitBranch className="h-4 w-4" />
-            <span className="hidden sm:inline">Hierarchy</span>
+            <GitBranch className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline uppercase tracking-wide">Hierarchy</span>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="grid"
             aria-label="Grid view"
-            className="gap-1.5"
+            className="gap-1.5 rounded-sm text-xs data-[state=on]:bg-primary/10 data-[state=on]:text-primary"
           >
-            <LayoutGrid className="h-4 w-4" />
-            <span className="hidden sm:inline">Grid</span>
+            <LayoutGrid className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline uppercase tracking-wide">Grid</span>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="orbital"
             aria-label="Orbital view"
-            className="gap-1.5"
+            className="gap-1.5 rounded-sm text-xs data-[state=on]:bg-primary/10 data-[state=on]:text-primary"
           >
-            <Orbit className="h-4 w-4" />
-            <span className="hidden sm:inline">Orbital</span>
+            <Orbit className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline uppercase tracking-wide">Orbital</span>
           </ToggleGroupItem>
         </ToggleGroup>
 
         <Button
+          variant="neon"
           onClick={onCreateClick}
-          className="gap-2"
+          className="gap-1.5 uppercase tracking-wider text-xs"
           aria-label="Open command palette to create"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-3.5 w-3.5" />
           <span className="hidden sm:inline">Create</span>
-          <kbd className="hidden sm:inline-flex h-5 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground ml-1">
+          <kbd className="hidden sm:inline-flex h-4 items-center gap-1 rounded border border-primary-foreground/20 bg-primary-foreground/10 px-1 font-mono text-[9px] font-medium text-primary-foreground/80 ml-0.5">
             ⌘K
           </kbd>
         </Button>
+
+        {onSave && (
+          <Button
+            onClick={onSave}
+            disabled={isSaving}
+            className="gap-1.5 bg-miro-green hover:bg-miro-green/90 text-white uppercase tracking-wider text-xs"
+          >
+            {isSaving ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
+            ) : (
+              <Save className="h-3.5 w-3.5" />
+            )}
+            <span className="hidden sm:inline">{isSaving ? "Saving..." : "Save"}</span>
+          </Button>
+        )}
       </div>
     </header>
   );

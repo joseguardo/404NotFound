@@ -57,11 +57,34 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Technical color palette
+        neon: {
+          green: "hsl(var(--neon-green))",
+          blue: "hsl(var(--electric-blue))",
+        },
+        surface: "hsl(var(--surface))",
+        elevated: "hsl(var(--elevated))",
+      },
+      fontFamily: {
+        sans: ['Space Grotesk', 'system-ui', 'sans-serif'],
+        mono: ['Space Mono', 'monospace'],
+      },
+      letterSpacing: {
+        'wider': '0.1em',
+        'widest': '0.2em',
+        'ultra': '0.3em',
       },
       borderRadius: {
         lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        md: "calc(var(--radius) - 1px)",
+        sm: "calc(var(--radius) - 2px)",
+      },
+      boxShadow: {
+        'tech': '0 1px 3px rgba(0, 0, 0, 0.06)',
+        'tech-md': '0 2px 6px rgba(0, 0, 0, 0.08)',
+        'tech-lg': '0 4px 12px rgba(0, 0, 0, 0.1)',
+        'neon': '0 0 10px rgba(128, 255, 0, 0.3)',
+        'neon-strong': '0 0 20px rgba(128, 255, 0, 0.4), 0 0 40px rgba(128, 255, 0, 0.2)',
       },
       keyframes: {
         "accordion-down": {

@@ -23,11 +23,24 @@ import {
   CreatePersonModal,
   ConnectionPicker,
 } from "./Modals";
+import { Department } from "./types";
+import { Company } from "@/services/api";
 
-export default function NexusApp() {
+interface NexusAppProps {
+  company: Company;
+  initialDepartments: Department[];
+  onBack: () => void;
+}
+
+export default function NexusApp({
+  company,
+  initialDepartments,
+  onBack,
+}: NexusAppProps) {
   const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
 
-  // State from hook
+  // State from hook - pass initial departments
   const {
     departments,
     connections,
@@ -53,7 +66,32 @@ export default function NexusApp() {
     exportData,
     importData,
     resetToSeed,
-  } = useNexusState();
+    saveToCloud,
+  } = useNexusState(initialDepartments);
+
+  // Handle save to cloud
+  const handleSaveToCloud = useCallback(async () => {
+    setIsSaving(true);
+    try {
+      const success = await saveToCloud(company.id);
+      if (success) {
+        toast({
+          title: "Saved successfully",
+          description: "Your organization structure has been saved.",
+        });
+      } else {
+        throw new Error("Save failed");
+      }
+    } catch (err) {
+      toast({
+        title: "Save failed",
+        description: "Could not save your organization. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  }, [company.id, saveToCloud, toast]);
 
   // Modal states
   const [cmdOpen, setCmdOpen] = useState(false);
@@ -248,6 +286,10 @@ export default function NexusApp() {
         view={view}
         onViewChange={setView}
         onCreateClick={() => setCmdOpen(true)}
+        companyName={company.company_name || "Untitled Company"}
+        onBack={onBack}
+        onSave={handleSaveToCloud}
+        isSaving={isSaving}
       />
 
       {/* Main view */}
