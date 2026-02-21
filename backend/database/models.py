@@ -133,3 +133,29 @@ class TopicList(BaseModel):
     """Collection of topics identified from a transcript."""
 
     topics: List[Topic]
+
+
+# ─── Project Matching Models ───────────────────────────────────────────────────
+
+
+class ExistingProject(BaseModel):
+    """Represents a project from the database."""
+
+    id: int
+    name: str
+
+
+class ProjectMatchDecision(BaseModel):
+    """LLM output for matching decision."""
+
+    is_existing_project: bool
+    matched_project_name: Optional[str] = None
+    confidence: float
+
+
+class ResolvedTopic(BaseModel):
+    """Final output: topic with resolved project name."""
+
+    project_name: str
+    topic_information: str
+    is_new_project: bool

@@ -31,6 +31,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 | Actions | Action items extracted from meetings |
 | Companies | Company/organization entities |
 | People | Personnel within companies |
+| Projects | Project entities with status tracking |
 | RawTranskripts | Raw transcript text data |
 
 ---
@@ -235,6 +236,72 @@ const { error } = await supabase
 
 ---
 
+## Projects Table
+
+Project entities with active/inactive status tracking.
+
+### Schema
+
+| Column | Type | Nullable | Default | Description |
+|--------|------|----------|---------|-------------|
+| `id` | `bigint` | NO | - | Primary key |
+| `created_at` | `timestamptz` | NO | `now()` | Creation timestamp |
+| `name` | `text` | YES | - | Project name |
+| `alive` | `boolean` | YES | - | Whether the project is active |
+
+### CRUD Operations
+
+```typescript
+// SELECT all projects
+const { data, error } = await supabase
+  .from('Projects')
+  .select('*')
+
+// SELECT project by id
+const { data, error } = await supabase
+  .from('Projects')
+  .select('*')
+  .eq('id', projectId)
+  .single()
+
+// SELECT active projects
+const { data, error } = await supabase
+  .from('Projects')
+  .select('*')
+  .eq('alive', true)
+
+// SELECT project by name
+const { data, error } = await supabase
+  .from('Projects')
+  .select('*')
+  .eq('name', 'Project Alpha')
+  .single()
+
+// INSERT new project
+const { data, error } = await supabase
+  .from('Projects')
+  .insert({
+    name: 'New Project',
+    alive: true
+  })
+  .select()
+
+// UPDATE project
+const { data, error } = await supabase
+  .from('Projects')
+  .update({ alive: false })
+  .eq('id', projectId)
+  .select()
+
+// DELETE project
+const { error } = await supabase
+  .from('Projects')
+  .delete()
+  .eq('id', projectId)
+```
+
+---
+
 ## RawTranskripts Table
 
 Raw transcript text data storage.
@@ -366,6 +433,13 @@ export interface Person {
   skills: string | null
 }
 
+export interface Project {
+  id: number                      // bigint
+  created_at: string              // timestamptz (ISO string)
+  name: string | null
+  alive: boolean | null
+}
+
 export interface RawTranskript {
   id: number                      // bigint
   created_at: string              // timestamptz (ISO string)
@@ -390,6 +464,11 @@ export interface Database {
         Row: Person
         Insert: Person
         Update: Partial<Omit<Person, 'id' | 'created_at'>>
+      }
+      Projects: {
+        Row: Project
+        Insert: Omit<Project, 'id' | 'created_at'> & { id?: number; created_at?: string }
+        Update: Partial<Omit<Project, 'id' | 'created_at'>>
       }
       RawTranskripts: {
         Row: RawTranskript
