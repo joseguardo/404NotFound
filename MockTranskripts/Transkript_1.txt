@@ -1,0 +1,165 @@
+# HackEurope Dublin — Planning Call Transcript
+
+**Date:** February 21, 2026
+**Participants:**
+
+- **Geoffrey Duan** — Director (CEO)
+- **Cian McGlynn** — Chair (Dublin Event Responsible)
+
+---
+
+**Geoffrey:** Cian, thanks for jumping on. We've got four big workstreams to lock down for Dublin — Admissions, Bracelets, Pizza, and Sponsors. Let's walk through each one, assign owners, and agree on the reporting chain. I want zero ambiguity on who does what and in what order.
+
+**Cian:** Agreed. Let's start with the one that's most time-sensitive.
+
+---
+
+## 1. Checking Admissions
+
+**Geoffrey:** This one gates everything else — we can't order bracelets or food until we know final headcount. Here's how I want it sequenced:
+
+> **Action 1.1 — Export & Clean the Applicant Data**
+> *Owner:* **Luke Molony** (Head of Technology) together with **Ishaan Jain** (Frontend Development)
+> Luke pulls the full applicant dataset from our registration platform and Ishaan cross-checks it against the frontend form logic to flag any duplicates or incomplete entries.
+> *Report back:* Luke sends a clean spreadsheet to **Cian** and **Tim Tay** (Head of Operations) within **48 hours**, confirming total valid applications.
+
+> **Action 1.2 — Review & Score Applications**
+> *Owner:* **Operations Department** (led by Tim Tay), supported by **Manon Galian** (Head of Community)
+> Tim coordinates a review panel. Manon flags any applicants who came through community outreach channels so we can weight engagement. Each reviewer scores independently; Tim consolidates.
+> *Report back:* Tim delivers a ranked list with accept/waitlist/reject recommendations to **Geoffrey and Cian** within **5 days** of receiving the clean data.
+
+> **Action 1.3 — Send Admission Decisions**
+> *Owner:* **Marketing and Community Department**
+> **Reuban Ramsden** (Head of Marketing) prepares the email templates — acceptance, waitlist, and rejection. **Rachel Ranjith** and **Faith Olopade** (Outreach) handle the actual sends and monitor bounce-backs and RSVPs.
+> *Report back:* Rachel and Faith report daily RSVP numbers to **Tim Tay**, who maintains a live headcount tracker shared with **Leadership**.
+
+> **Action 1.4 — Confirm Final Headcount**
+> *Owner:* **Tim Tay**
+> After the RSVP deadline, Tim locks the final confirmed number and circulates it to all department heads. This number is the trigger for Actions 2.1 and 3.1.
+> *Report back:* Tim sends a single "Headcount Locked" message to a dedicated Slack channel visible to **all departments**.
+
+**Cian:** Perfect. So the critical path is: Luke & Ishaan → Tim & Manon → Reuban, Rachel & Faith → Tim finalizes. Nothing downstream moves until 1.4 is done.
+
+**Geoffrey:** Exactly.
+
+---
+
+## 2. Ordering Bracelets
+
+**Geoffrey:** This is logistics-heavy but straightforward once we have the number.
+
+> **Action 2.1 — Determine Bracelet Specs & Quantities**
+> *Owner:* **Emer O'Connor** (Head of Design) and **Hubert Stanowski** (Head of UX)
+> *Triggered by:* Completion of Action 1.4.
+> Emer designs the bracelet look — colours, logo placement, any tiered designs for attendees vs. volunteers vs. sponsors. Hubert validates that any QR or NFC element on the bracelet works from a user-experience standpoint.
+> *Report back:* Emer sends final design files and quantity breakdown to **Cian** and **Tim Tay** within **3 days** of headcount lock.
+
+> **Action 2.2 — Source Vendor & Place Order**
+> *Owner:* **Aryaman Dey** (Head of Partnerships & Finance)
+> Aryaman gets quotes from at least two suppliers, confirms budget approval, and places the order.
+> *Report back:* Aryaman confirms order placement, estimated delivery date, and cost to **Geoffrey** and **Tim Tay** within **2 days** of receiving the design specs.
+
+> **Action 2.3 — Receive & Verify Shipment**
+> *Owner:* **Operations Department** (Tim Tay)
+> Tim arranges delivery to the Dublin venue, does a physical count on arrival, and flags any defects.
+> *Report back:* Tim sends a confirmation photo and count to **Cian** the day of receipt. Any issues escalate immediately to **Aryaman** for vendor follow-up.
+
+**Cian:** So the chain is: Design & UX delivers specs → Aryaman handles procurement → Tim handles receiving. Clear.
+
+---
+
+## 3. Preparing the Pizza Order
+
+**Geoffrey:** Everyone remembers the pizza. Let's make sure we get this right.
+
+> **Action 3.1 — Gather Dietary Requirements**
+> *Owner:* **Rachel Ranjith** and **Faith Olopade** (Outreach)
+> *Triggered by:* Completion of Action 1.3 (as RSVPs come in).
+> Rachel and Faith include a dietary-requirements question in the RSVP confirmation flow. They compile results into a summary: vegetarian, vegan, halal, gluten-free, allergen flags, etc.
+> *Report back:* A dietary summary spreadsheet is delivered to **Tim Tay** and **Cian** no later than **2 days after** Action 1.4 (headcount lock).
+
+> **Action 3.2 — Select Pizzeria & Negotiate Bulk Pricing**
+> *Owner:* **Aryaman Dey** (Head of Partnerships & Finance), in coordination with **Cian McGlynn** (local Dublin knowledge)
+> Cian shortlists 2–3 Dublin pizzerias that can handle bulk catering. Aryaman negotiates pricing and confirms budget.
+> *Report back:* Aryaman sends the chosen vendor, menu breakdown, total cost, and delivery time to **Geoffrey** for final sign-off.
+
+> **Action 3.3 — Place & Confirm the Order**
+> *Owner:* **Tim Tay** (Head of Operations)
+> Tim places the final order based on the agreed menu and confirmed headcount, including a 10% buffer.
+> *Report back:* Tim shares the order confirmation receipt in the Slack ops channel, tagging **Aryaman** (for finance tracking) and **Cian** (for venue coordination).
+
+> **Action 3.4 — Day-of Delivery Coordination**
+> *Owner:* **Operations Department**
+> Tim assigns a volunteer point-of-contact at the venue to receive the delivery, verify the order, and manage distribution.
+> *Report back:* Real-time update to **Cian** when pizza arrives and is set up.
+
+**Cian:** So: Outreach collects dietary data → Aryaman and I pick the vendor → Tim places and manages the order. And Actions 3.1 and 3.2 can run in parallel — I can start scouting pizzerias while RSVPs are still coming in.
+
+**Geoffrey:** Exactly right. Parallel tracks where possible.
+
+---
+
+## 4. Sponsor Relations — Finding 2 New Sponsors
+
+**Geoffrey:** This one's the most critical in terms of revenue. We're short two sponsors and the clock is ticking.
+
+> **Action 4.1 — Build a Target List**
+> *Owner:* **Billy Ly** (Head of Sponsor Relations), supported by **Aryaman Dey**
+> Billy drafts a list of 10–15 prospective sponsors — a mix of tech companies, local Dublin businesses, and EU-focused organisations. Aryaman provides the sponsorship tier pricing and value propositions.
+> *Report back:* Billy shares the target list with **Geoffrey** and **Cian** for review and approval within **48 hours**.
+
+> **Action 4.2 — Prepare Outreach Materials**
+> *Owner:* **Sponsors and Media Department** and **Design and UX Department**
+> Billy writes the outreach pitch and sponsorship deck copy. **Emer O'Connor** designs the deck. **Mario Fabelo** (Videography) prepares a short highlight reel from past HackEurope events to embed in the pitch.
+> *Report back:* Final pitch deck and video are delivered to **Billy** and **Geoffrey** for sign-off within **4 days**.
+
+> **Action 4.3 — First-Wave Outreach**
+> *Owner:* **Billy Ly**, with support from **Liam** (Assistant Director) and **Rachel Ranjith** (Outreach)
+> Billy sends personalised emails to the top 8 prospects. Liam lends leadership credibility by co-signing outreach to the highest-value targets. Rachel supports with LinkedIn warm introductions where she has connections.
+> *Report back:* Billy updates a shared CRM tracker daily, flagging responses, meetings booked, and rejections. Weekly summary to **Geoffrey**.
+
+> **Action 4.4 — Follow-Up & Negotiation**
+> *Owner:* **Billy Ly** and **Aryaman Dey**
+> Billy leads the conversations; Aryaman handles contract terms, invoicing, and any bespoke package negotiations.
+> *Report back:* Each time a sponsor verbally commits, Billy notifies **Geoffrey** and **Cian** immediately. Aryaman confirms once payment or signed agreement is received.
+
+> **Action 4.5 — Board Escalation (if needed)**
+> *Owner:* **Board** — **Calista Kuan, Tim Farrelly, Oisín Curran**
+> If after 10 days we haven't secured at least one of the two sponsors, Geoffrey escalates to the Board. Board members leverage their personal networks for warm introductions.
+> *Report back:* Any Board-sourced lead is handed back to **Billy** for follow-through, with the originating Board member CC'd on progress.
+
+**Cian:** So: Billy builds the list → Design and Media prep the materials → Billy, Liam and Rachel do outreach → Billy and Aryaman close deals → Board is the safety net. And there's a hard 10-day checkpoint for escalation.
+
+**Geoffrey:** Correct. And I want **Reuban** kept in the loop on sponsor confirmations too — once we close a sponsor, Marketing needs to know immediately so they can plan co-branded content and social posts.
+
+**Cian:** Noted. I'll make sure that's in the reporting flow.
+
+---
+
+## Summary — Execution Sequence & Dependencies
+
+**Geoffrey:** Let me lay it out simply:
+
+**Parallel Track A — Admissions-driven:**
+
+```
+1.1 → 1.2 → 1.3 → 1.4 → (triggers) → 2.1 → 2.2 → 2.3
+                                    ↘ 3.1 (starts during 1.3) → 3.3 → 3.4
+```
+
+**Parallel Track B — Can start immediately:**
+
+```
+3.2 (pizzeria scouting — runs alongside Track A)
+4.1 → 4.2 → 4.3 → 4.4 → 4.5 (if needed)
+```
+
+**Cian:** And all reporting flows back through either **Tim** for ops matters or **me** for Dublin-specific items, with you getting the executive summary on each milestone.
+
+**Geoffrey:** That's it. Let's get everyone moving. I'll send the kickoff message to department heads today. You brief the Dublin-side contacts.
+
+**Cian:** On it. Talk soon.
+
+---
+
+*End of call.*
