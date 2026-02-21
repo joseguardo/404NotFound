@@ -22,12 +22,27 @@ import {
   CreateDepartmentModal,
   CreatePersonModal,
   ConnectionPicker,
+  TranscriptUploadModal,
 } from "./Modals";
+import { api } from "@/services/api";
+import { Department } from "./types";
+import { Company } from "@/services/api";
 
-export default function NexusApp() {
+interface NexusAppProps {
+  company: Company;
+  initialDepartments: Department[];
+  onBack: () => void;
+}
+
+export default function NexusApp({
+  company,
+  initialDepartments,
+  onBack,
+}: NexusAppProps) {
   const { toast } = useToast();
+  const [isSaving, setIsSaving] = useState(false);
 
-  // State from hook
+  // State from hook - pass initial departments
   const {
     departments,
     connections,
@@ -53,13 +68,39 @@ export default function NexusApp() {
     exportData,
     importData,
     resetToSeed,
-  } = useNexusState();
+    saveToCloud,
+  } = useNexusState(initialDepartments);
+
+  // Handle save to cloud
+  const handleSaveToCloud = useCallback(async () => {
+    setIsSaving(true);
+    try {
+      const success = await saveToCloud(company.id);
+      if (success) {
+        toast({
+          title: "Saved successfully",
+          description: "Your organization structure has been saved.",
+        });
+      } else {
+        throw new Error("Save failed");
+      }
+    } catch (err) {
+      toast({
+        title: "Save failed",
+        description: "Could not save your organization. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  }, [company.id, saveToCloud, toast]);
 
   // Modal states
   const [cmdOpen, setCmdOpen] = useState(false);
   const [createDeptOpen, setCreateDeptOpen] = useState(false);
   const [createPersonOpen, setCreatePersonOpen] = useState(false);
   const [connPickerOpen, setConnPickerOpen] = useState(false);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [targetDeptId, setTargetDeptId] = useState<string | null>(null);
   const [targetDeptName, setTargetDeptName] = useState("");
 
@@ -83,6 +124,7 @@ export default function NexusApp() {
         setCreateDeptOpen(false);
         setCreatePersonOpen(false);
         setConnPickerOpen(false);
+        setUploadModalOpen(false);
         clearSelection();
       }
     };
@@ -233,6 +275,27 @@ export default function NexusApp() {
     });
   }, [resetToSeed, toast]);
 
+  // Handle transcript upload
+  const handleUploadTranscripts = useCallback(
+    async (files: File[]) => {
+      try {
+        await api.uploadTranscripts(company.id, files);
+        toast({
+          title: "Transcripts uploaded",
+          description: `${files.length} file${files.length > 1 ? "s" : ""} uploaded successfully.`,
+        });
+      } catch (err) {
+        toast({
+          title: "Upload failed",
+          description: "Could not upload transcripts. Please try again.",
+          variant: "destructive",
+        });
+        throw err;
+      }
+    },
+    [company.id, toast]
+  );
+
   // Connection count for selected person
   const connectionCount = selectedPerson
     ? getConnectionCount(selectedPerson.id)
@@ -248,6 +311,11 @@ export default function NexusApp() {
         view={view}
         onViewChange={setView}
         onCreateClick={() => setCmdOpen(true)}
+        onUploadClick={() => setUploadModalOpen(true)}
+        companyName={company.company_name || "Untitled Company"}
+        onBack={onBack}
+        onSave={handleSaveToCloud}
+        isSaving={isSaving}
       />
 
       {/* Main view */}
@@ -324,6 +392,13 @@ export default function NexusApp() {
         onOpenChange={setConnPickerOpen}
         departments={departments}
         onSave={handleSaveConnection}
+      />
+
+      {/* Transcript upload modal */}
+      <TranscriptUploadModal
+        open={uploadModalOpen}
+        onOpenChange={setUploadModalOpen}
+        onUpload={handleUploadTranscripts}
       />
 
       {/* Person panel */}

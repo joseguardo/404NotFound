@@ -39,15 +39,24 @@ export interface DepartmentColor {
   dot: string;
 }
 
+// Technical monochromatic department colors with neon accents
 export const DEPT_COLORS: DepartmentColor[] = [
-  { bg: "hsl(var(--primary) / 0.08)", border: "hsl(var(--primary) / 0.30)", dot: "hsl(var(--primary))" },
-  { bg: "hsl(160 84% 39% / 0.08)", border: "hsl(160 84% 39% / 0.30)", dot: "hsl(160 84% 39%)" },
-  { bg: "hsl(262 83% 58% / 0.08)", border: "hsl(262 83% 58% / 0.30)", dot: "hsl(262 83% 58%)" },
-  { bg: "hsl(38 92% 50% / 0.08)", border: "hsl(38 92% 50% / 0.30)", dot: "hsl(38 92% 50%)" },
-  { bg: "hsl(var(--destructive) / 0.08)", border: "hsl(var(--destructive) / 0.30)", dot: "hsl(var(--destructive))" },
-  { bg: "hsl(330 81% 60% / 0.08)", border: "hsl(330 81% 60% / 0.30)", dot: "hsl(330 81% 60%)" },
-  { bg: "hsl(174 72% 40% / 0.08)", border: "hsl(174 72% 40% / 0.30)", dot: "hsl(174 72% 40%)" },
-  { bg: "hsl(var(--muted) / 0.5)", border: "hsl(var(--border))", dot: "hsl(var(--muted-foreground))" },
+  // Neon Green - Primary highlight
+  { bg: "hsl(75 100% 50% / 0.08)", border: "hsl(75 100% 50% / 0.4)", dot: "hsl(75 100% 50%)" },
+  // Electric Blue - Secondary
+  { bg: "hsl(200 100% 50% / 0.08)", border: "hsl(200 100% 50% / 0.4)", dot: "hsl(200 100% 50%)" },
+  // Grayscale Light
+  { bg: "hsl(0 0% 50% / 0.06)", border: "hsl(0 0% 50% / 0.3)", dot: "hsl(0 0% 60%)" },
+  // Grayscale Medium
+  { bg: "hsl(0 0% 40% / 0.06)", border: "hsl(0 0% 40% / 0.3)", dot: "hsl(0 0% 50%)" },
+  // Neon Green Dim
+  { bg: "hsl(75 60% 40% / 0.08)", border: "hsl(75 60% 40% / 0.4)", dot: "hsl(75 60% 45%)" },
+  // Electric Blue Dim
+  { bg: "hsl(200 60% 40% / 0.08)", border: "hsl(200 60% 40% / 0.4)", dot: "hsl(200 60% 45%)" },
+  // Grayscale Dark
+  { bg: "hsl(0 0% 30% / 0.06)", border: "hsl(0 0% 30% / 0.3)", dot: "hsl(0 0% 40%)" },
+  // Pure Gray
+  { bg: "hsl(0 0% 25% / 0.06)", border: "hsl(0 0% 25% / 0.3)", dot: "hsl(0 0% 35%)" },
 ];
 
 // ─── State Types ─────────────────────────────────────────────────────
