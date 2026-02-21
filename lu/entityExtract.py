@@ -20,6 +20,8 @@ Hard rules:
 - Do NOT invent facts not present in the transcript.
 - For action items/decisions/questions, include an evidence quote in extraction_text.
 - Put structured fields in attributes.
+- assigned_to_department/person should be included only if clearly supported by the transcript.
+
 
 Classes to extract:
 - action_item: a sentence/clause that indicates an assigned or clearly committed task
@@ -27,15 +29,16 @@ Classes to extract:
 Action item attributes:
    - extraction_text: the full sentence/clause that states the action (evidence quote)
    - attributes (typeofaction):
-     - action: string (e.g. "draft onboarding email sequence", "check legal review for copy", "ship onboarding v1 in English only")
-     - timestamp: string|(e.g. "2026-02-21T15:04:05Z07:00" or "2026-02-21"; null if not specified)
-     - content: string         ( paraphrase of the action, imperative verb phrase with 3rd person subject)
-     - timeframe: string|null  (e.g. "today", "by next Friday", "in 10 days"; null if none)
-     - related_actions: [string] (optional links to other actions by short labels; else [])
-     - relevant_people: [string] (names mentioned or implied owner/assignees; else [])
-     - department: string|null (if explicitly stated; else null)
-     - project: string|null    (if explicitly stated; else null)
-
+    - id: uuid4 string (generate a random UUID v4)
+    - meeting_id: int (always provided by caller; if not provided in transcript, still output a number placeholder like 1)
+    - project_id: int|null (only if explicitly known; else null)
+    - action: string (short action label, lower-case verb phrase, e.g. "draft onboarding email sequence")
+    - description: string (paraphrase in 3rd person, imperative meaning; e.g. "Alice drafts the onboarding email sequence.")
+    - assigned_to_department: string|null (department name if explicitly stated; else null)
+    - assigned_to_person: string|null (single best owner if clear; else null)
+    - sequence: string|null (order/sequence identifier if explicitly present like "1.4" or "3.1"; else null)
+    - response_type: string (null for now, another agent will fill in later)
+    - urgency: string|null (deadline or urgency phrase exactly as stated, e.g. "by next Friday", "today", "in 10 days"; else null)
 
 """)
 
@@ -53,17 +56,34 @@ examples = [
                 extraction_class="action_item",
                 extraction_text="I can draft the onboarding email sequence by next Friday.",
                 attributes={
+                    "id": "2d0c2d5e-3bb7-4d1a-9b6f-52d7a2df4f6b",
+                    "meeting_id": 1,
+                    "project_id": None,
                     "action": "draft onboarding email sequence",
-                    "timestamp": None,
-                    "content": "Alice will draft the onboarding email sequence, and chen will check legal review. and both will ship onboarding v1 in English only",
-                    "timeframe": "by next Friday",
-                    "related_actions": [],
-                    "relevant_people": ["Alice"],
-                    "department": None,
-                    "project": "Onboarding"
+                    "description": "Alice drafts the onboarding email sequence.",
+                    "assigned_to_department": None,
+                    "assigned_to_person": "Alice",
+                    "sequence": None,
+                    "response_type": None,
+                    "urgency": "by next Friday"
                 }
             ),
-
+            lx.data.Extraction(
+                extraction_class="action_item",
+                extraction_text="Chen, can you check whether legal review is needed for the copy?",
+                attributes={
+                    "id": "6aa1e27d-85d8-4ab2-9f0f-8b6b3c8c5c4e",
+                    "meeting_id": 1,
+                    "project_id": None,
+                    "action": "check whether legal review is needed",
+                    "description": "Chen checks whether legal review is needed for the copy.",
+                    "assigned_to_department": None,
+                    "assigned_to_person": "Chen",
+                    "sequence": None,
+                    "response_type": None,
+                    "urgency": None
+                }
+            ),
         ],
     )
 ]
