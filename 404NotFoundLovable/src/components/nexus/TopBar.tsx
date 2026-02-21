@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Orbit, LayoutGrid, Building2, Users, Link2 } from "lucide-react";
+import { Plus, Orbit, LayoutGrid, Building2, Users, Link2, GitBranch } from "lucide-react";
 import { ViewMode } from "./types";
 
 interface TopBarProps {
@@ -58,12 +58,12 @@ export function TopBar({
           aria-label="View mode"
         >
           <ToggleGroupItem
-            value="orbital"
-            aria-label="Orbital view"
+            value="hierarchy"
+            aria-label="Hierarchy view"
             className="gap-1.5"
           >
-            <Orbit className="h-4 w-4" />
-            <span className="hidden sm:inline">Orbital</span>
+            <GitBranch className="h-4 w-4" />
+            <span className="hidden sm:inline">Hierarchy</span>
           </ToggleGroupItem>
           <ToggleGroupItem
             value="grid"
@@ -72,6 +72,14 @@ export function TopBar({
           >
             <LayoutGrid className="h-4 w-4" />
             <span className="hidden sm:inline">Grid</span>
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="orbital"
+            aria-label="Orbital view"
+            className="gap-1.5"
+          >
+            <Orbit className="h-4 w-4" />
+            <span className="hidden sm:inline">Orbital</span>
           </ToggleGroupItem>
         </ToggleGroup>
 

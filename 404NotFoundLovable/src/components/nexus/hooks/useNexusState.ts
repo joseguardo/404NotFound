@@ -102,7 +102,7 @@ export function useNexusState(): UseNexusStateReturn {
   const [expandedDepts, setExpandedDepts] = useState<Set<string>>(new Set());
   const [selectedPerson, setSelectedPerson] = useState<Person | null>(null);
   const [selectedDept, setSelectedDept] = useState<Department | null>(null);
-  const [view, setView] = useState<ViewMode>("orbital");
+  const [view, setView] = useState<ViewMode>("hierarchy");
 
   // Persist state to localStorage
   useEffect(() => {

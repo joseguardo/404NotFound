@@ -13,6 +13,7 @@ import {
 
 import { useNexusState } from "./hooks/useNexusState";
 import { TopBar } from "./TopBar";
+import { HierarchyView } from "./HierarchyView";
 import { OrbitalView } from "./OrbitalView";
 import { GridView } from "./GridView";
 import { PersonPanel, ConnectionsBar } from "./Panels";
@@ -250,7 +251,25 @@ export default function NexusApp() {
       />
 
       {/* Main view */}
-      {view === "orbital" ? (
+      {view === "hierarchy" && (
+        <HierarchyView
+          departments={departments}
+          selectedPersonId={selectedPerson?.id || null}
+          onSelectPerson={selectPerson}
+          onOpenCommandPalette={() => setCmdOpen(true)}
+        />
+      )}
+      {view === "grid" && (
+        <GridView
+          departments={departments}
+          connections={connections}
+          selectedPersonId={selectedPerson?.id || null}
+          onSelectPerson={selectPerson}
+          onDeleteDepartment={handleRequestDeleteDept}
+          onOpenCommandPalette={() => setCmdOpen(true)}
+        />
+      )}
+      {view === "orbital" && (
         <OrbitalView
           departments={departments}
           connections={connections}
@@ -260,15 +279,6 @@ export default function NexusApp() {
           onToggleDept={toggleDept}
           onSelectPerson={selectPerson}
           onNodeDrag={updateNodePosition}
-          onOpenCommandPalette={() => setCmdOpen(true)}
-        />
-      ) : (
-        <GridView
-          departments={departments}
-          connections={connections}
-          selectedPersonId={selectedPerson?.id || null}
-          onSelectPerson={selectPerson}
-          onDeleteDepartment={handleRequestDeleteDept}
           onOpenCommandPalette={() => setCmdOpen(true)}
         />
       )}

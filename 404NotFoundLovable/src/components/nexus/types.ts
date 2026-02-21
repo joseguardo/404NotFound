@@ -24,7 +24,7 @@ export interface Connection {
 
 // ─── View & UI Types ─────────────────────────────────────────────────
 
-export type ViewMode = "orbital" | "grid";
+export type ViewMode = "hierarchy" | "grid" | "orbital";
 
 export interface NodePosition {
   x: number;

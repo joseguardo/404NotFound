@@ -39,6 +39,11 @@ export function OrbitalView({
     offsetY: number;
   } | null>(null);
 
+  // Track if drag occurred to prevent click after drag
+  const didDragRef = useRef(false);
+  const startPosRef = useRef({ x: 0, y: 0 });
+  const DRAG_THRESHOLD = 5; // pixels
+
   const [zoom, setZoom] = useState(1);
 
   const cx = 420,
@@ -71,6 +76,9 @@ export function OrbitalView({
         offsetX: pos.x - svgP.x,
         offsetY: pos.y - svgP.y,
       };
+      // Track start position for drag detection
+      startPosRef.current = { x: e.clientX, y: e.clientY };
+      didDragRef.current = false;
       (e.target as Element).setPointerCapture?.(e.pointerId);
     },
     [nodePositions, getSVGPoint]
@@ -79,6 +87,16 @@ export function OrbitalView({
   const handlePointerMove = useCallback(
     (e: React.PointerEvent) => {
       if (!dragRef.current) return;
+
+      // Check if moved beyond threshold to mark as drag
+      const moved = Math.hypot(
+        e.clientX - startPosRef.current.x,
+        e.clientY - startPosRef.current.y
+      );
+      if (moved > DRAG_THRESHOLD) {
+        didDragRef.current = true;
+      }
+
       const svgP = getSVGPoint(e.clientX, e.clientY);
       onNodeDrag(
         dragRef.current.id,
@@ -205,18 +223,19 @@ export function OrbitalView({
         onPointerLeave={handlePointerUp}
       >
         <defs>
+          {/* Subtle dot pattern for clean background */}
           <pattern
-            id="gridPattern"
-            width="20"
-            height="20"
+            id="dotPattern"
+            width="24"
+            height="24"
             patternUnits="userSpaceOnUse"
           >
-            <path
-              d="M 20 0 L 0 0 0 20"
-              fill="none"
-              stroke="hsl(var(--border))"
-              strokeWidth="0.5"
-              opacity="0.5"
+            <circle
+              cx="12"
+              cy="12"
+              r="1"
+              fill="hsl(var(--border))"
+              opacity="0.3"
             />
           </pattern>
           <filter id="nodeShadow">
@@ -230,8 +249,9 @@ export function OrbitalView({
           </filter>
         </defs>
 
-        {/* Grid background */}
-        <rect width="840" height="640" fill="url(#gridPattern)" />
+        {/* Clean background with subtle dots */}
+        <rect width="840" height="640" fill="hsl(var(--background))" />
+        <rect width="840" height="640" fill="url(#dotPattern)" />
 
         {/* Connection arcs */}
         {connections.map((conn, i) => {
@@ -358,7 +378,10 @@ export function OrbitalView({
               <g
                 style={{ cursor: "grab" }}
                 onPointerDown={(e) => handlePointerDown(e, dept.id)}
-                onClick={() => onToggleDept(dept.id)}
+                onClick={() => {
+                  if (didDragRef.current) return; // Skip if was dragging
+                  onToggleDept(dept.id);
+                }}
                 role="button"
                 aria-label={`${dept.name} department. Click to ${expanded ? "collapse" : "expand"}`}
                 tabIndex={0}
@@ -422,6 +445,7 @@ export function OrbitalView({
                 onPointerDown={(e) => handlePointerDown(e, p.id)}
                 onClick={(e) => {
                   e.stopPropagation();
+                  if (didDragRef.current) return; // Skip if was dragging
                   onSelectPerson(p, dept);
                 }}
                 role="button"
