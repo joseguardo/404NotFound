@@ -204,6 +204,25 @@ export const api = {
     if (!res.ok) throw new Error("Failed to delete person");
   },
 
+  // ─── Transcripts ─────────────────────────────────────────────────────────
+
+  async uploadTranscripts(companyId: number, files: File[]): Promise<void> {
+    const formData = new FormData();
+    files.forEach((file) => {
+      formData.append("files", file);
+    });
+
+    const res = await fetch(`${API_BASE}/companies/${companyId}/transcripts`, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.detail || "Failed to upload transcripts");
+    }
+  },
+
   // ─── Health ───────────────────────────────────────────────────────────────
 
   async checkHealth(): Promise<boolean> {

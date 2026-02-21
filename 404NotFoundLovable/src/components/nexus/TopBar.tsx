@@ -12,7 +12,11 @@ import {
   ArrowLeft,
   Save,
   Loader2,
+  Sun,
+  Moon,
+  Upload,
 } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 import { ViewMode } from "./types";
 
 interface TopBarProps {
@@ -22,6 +26,7 @@ interface TopBarProps {
   view: ViewMode;
   onViewChange: (view: ViewMode) => void;
   onCreateClick: () => void;
+  onUploadClick: () => void;
   companyName?: string;
   onBack?: () => void;
   onSave?: () => void;
@@ -35,11 +40,14 @@ export function TopBar({
   view,
   onViewChange,
   onCreateClick,
+  onUploadClick,
   companyName,
   onBack,
   onSave,
   isSaving = false,
 }: TopBarProps) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <header className="flex items-center justify-between px-6 py-3 border-b border-border bg-card/95 backdrop-blur-sm shrink-0">
       {/* Left side - Back, Company Name, and stats */}
@@ -121,6 +129,31 @@ export function TopBar({
             <span className="hidden sm:inline uppercase tracking-wide">Orbital</span>
           </ToggleGroupItem>
         </ToggleGroup>
+
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={toggleTheme}
+          className="text-muted-foreground hover:text-foreground"
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+        >
+          {theme === "dark" ? (
+            <Sun className="h-4 w-4" />
+          ) : (
+            <Moon className="h-4 w-4" />
+          )}
+        </Button>
+
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={onUploadClick}
+          className="gap-1.5 text-xs"
+          aria-label="Upload transcripts"
+        >
+          <Upload className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline uppercase tracking-wide">Upload</span>
+        </Button>
 
         <Button
           variant="neon"

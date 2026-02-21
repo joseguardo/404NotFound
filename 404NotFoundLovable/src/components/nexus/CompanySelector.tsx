@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Building2, Plus, RefreshCw, AlertCircle, Loader2 } from "lucide-react";
+import { Building2, Plus, RefreshCw, AlertCircle, Loader2, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/hooks/use-theme";
 import { api, Company } from "@/services/api";
 import { Department } from "./types";
 import { CreateCompanyModal } from "./Modals/CreateCompanyModal";
@@ -18,6 +19,7 @@ export function CompanySelector({
   onCreateCompany,
 }: CompanySelectorProps) {
   const { toast } = useToast();
+  const { theme, toggleTheme } = useTheme();
   const [companies, setCompanies] = useState<Company[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +80,20 @@ export function CompanySelector({
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={toggleTheme}
+        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+        aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      >
+        {theme === "dark" ? (
+          <Sun className="h-5 w-5" />
+        ) : (
+          <Moon className="h-5 w-5" />
+        )}
+      </Button>
       <div className="max-w-4xl w-full">
         {/* Header */}
         <div className="text-center mb-12">

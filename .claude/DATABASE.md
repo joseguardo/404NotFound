@@ -31,6 +31,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 | Actions | Action items extracted from meetings |
 | Companies | Company/organization entities |
 | People | Personnel within companies |
+| RawTranskripts | Raw transcript text data |
 
 ---
 
@@ -234,6 +235,57 @@ const { error } = await supabase
 
 ---
 
+## RawTranskripts Table
+
+Raw transcript text data storage.
+
+### Schema
+
+| Column | Type | Nullable | Default | Description |
+|--------|------|----------|---------|-------------|
+| `id` | `bigint` | NO | - | Primary key |
+| `created_at` | `timestamptz` | NO | `now()` | Creation timestamp |
+| `text` | `text` | YES | - | Raw transcript text content |
+
+### CRUD Operations
+
+```typescript
+// SELECT all transcripts
+const { data, error } = await supabase
+  .from('RawTranskripts')
+  .select('*')
+
+// SELECT transcript by id
+const { data, error } = await supabase
+  .from('RawTranskripts')
+  .select('*')
+  .eq('id', transcriptId)
+  .single()
+
+// INSERT new transcript
+const { data, error } = await supabase
+  .from('RawTranskripts')
+  .insert({
+    text: 'Full transcript text content here...'
+  })
+  .select()
+
+// UPDATE transcript
+const { data, error } = await supabase
+  .from('RawTranskripts')
+  .update({ text: 'Updated transcript text' })
+  .eq('id', transcriptId)
+  .select()
+
+// DELETE transcript
+const { error } = await supabase
+  .from('RawTranskripts')
+  .delete()
+  .eq('id', transcriptId)
+```
+
+---
+
 ## Common Query Patterns
 
 ### Get all actions for a specific meeting
@@ -314,6 +366,12 @@ export interface Person {
   skills: string | null
 }
 
+export interface RawTranskript {
+  id: number                      // bigint
+  created_at: string              // timestamptz (ISO string)
+  text: string | null
+}
+
 // Database schema type
 export interface Database {
   public: {
@@ -332,6 +390,11 @@ export interface Database {
         Row: Person
         Insert: Person
         Update: Partial<Omit<Person, 'id' | 'created_at'>>
+      }
+      RawTranskripts: {
+        Row: RawTranskript
+        Insert: Omit<RawTranskript, 'id' | 'created_at'> & { id?: number; created_at?: string }
+        Update: Partial<Omit<RawTranskript, 'id' | 'created_at'>>
       }
     }
   }

@@ -1,5 +1,6 @@
 from pydantic import BaseModel
-from typing import Optional
+from dataclasses import dataclass
+from typing import Optional, List
 from datetime import datetime
 
 
@@ -78,3 +79,57 @@ class PersonUpdate(BaseModel):
 
 class CompanyUpdate(BaseModel):
     company_name: Optional[str] = None
+
+
+# ─── Text Extraction Models ─────────────────────────────────────────────────
+
+
+class ExtractionError(Exception):
+    """Raised when text extraction fails."""
+
+    pass
+
+
+class UnsupportedFormatError(Exception):
+    """Raised when file format is not supported."""
+
+    pass
+
+
+@dataclass
+class ExtractedText:
+    """Result of text extraction from a document."""
+
+    content: str
+    source_file: str
+    file_type: str
+    page_count: Optional[int]
+    word_count: int
+    extraction_time: float
+
+    def to_dict(self) -> dict:
+        """Convert to dictionary for JSON serialization."""
+        return {
+            "content": self.content,
+            "source_file": self.source_file,
+            "file_type": self.file_type,
+            "page_count": self.page_count,
+            "word_count": self.word_count,
+            "extraction_time": self.extraction_time,
+        }
+
+
+# ─── Topic Identification Models ───────────────────────────────────────────────
+
+
+class Topic(BaseModel):
+    """A single identified topic/project from a transcript."""
+
+    topic_name: str
+    topic_information: str
+
+
+class TopicList(BaseModel):
+    """Collection of topics identified from a transcript."""
+
+    topics: List[Topic]
