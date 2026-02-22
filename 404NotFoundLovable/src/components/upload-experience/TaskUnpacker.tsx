@@ -55,6 +55,7 @@ type AppState =
   | "idle"
   | "dropping"
   | "unpacking"
+  | "analyzing"
   | "reviewing"
   | "processing"
   | "cleaning"
@@ -94,6 +95,10 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
   const [activePeople, setActivePeople] = useState<string[]>([]);
 
   useEffect(() => {
+    tasksRef.current = tasks;
+  }, [tasks]);
+
+  useEffect(() => {
     setTasks(seededTasks);
     tasksRef.current = seededTasks;
     setCompletedCount(0);
@@ -118,7 +123,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
   useEffect(() => {
     if (state !== "unpacking") return;
     const timer = window.setTimeout(() => {
-      setState("processing");
+      setState("analyzing");
       setShowSidebar(true);
       setSidebarMinimized(false);
     }, 600);
@@ -148,7 +153,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
   };
 
   useEffect(() => {
-    if (state !== "processing") return;
+    if (state !== "analyzing") return;
 
     let cancelled = false;
 
@@ -180,7 +185,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
           window.clearInterval(progressInterval);
           const actions = result.projects.flatMap((p) => p.first_actions);
 
-          // mark file task completed for animation continuity
+          // mark file task completed while backend extraction runs
           setTasks((prev) =>
             prev.map((t) =>
               t.id === task.id ? { ...t, status: "completed", progress: 100 } : t
@@ -193,10 +198,10 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                       title: action.description,
                       recipient: action.people?.join(", ") || action.department,
               type: mapResponseType(action.response_type),
-              status: "completed",
-              progress: 100,
-              delay: 0,
-              duration: 0,
+              status: "pending",
+              progress: 0,
+              delay: 350 + action.action_index * 250,
+              duration: 2000 + action.action_index * 250,
               details: `${action.urgency} • ${action.department}`,
               backendFilename: task.backendFilename,
               people: action.people,
@@ -226,7 +231,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
       if (actionTasks.length > 0) {
         setTasks(actionTasks);
         tasksRef.current = actionTasks;
-        setCompletedCount(actionTasks.length);
+        setCompletedCount(0);
         setSelectedTaskIds(new Set());
         setShowSidebar(false);
         setSidebarMinimized(false);
@@ -244,6 +249,52 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
   }, [state, companyId]);
 
   useEffect(() => {
+    if (state !== "processing") return;
+
+    const timers: number[] = [];
+
+    tasksRef.current.forEach((task) => {
+      const startTimeout = window.setTimeout(() => {
+        setTasks((prev) =>
+          prev.map((t) => (t.id === task.id ? { ...t, status: "processing" } : t))
+        );
+
+        const intervalTime = 60;
+        const steps = Math.max(task.duration / intervalTime, 10);
+        const increment = 100 / steps;
+
+        const progressInterval = window.setInterval(() => {
+          setTasks((prev) => {
+            const currentTask = prev.find((t) => t.id === task.id);
+            if (!currentTask) return prev;
+
+            const nextProgress = Math.min(currentTask.progress + increment, 100);
+            if (nextProgress >= 100) {
+              window.clearInterval(progressInterval);
+              setCompletedCount((c) => c + 1);
+              return prev.map((t) =>
+                t.id === task.id ? { ...t, status: "completed", progress: 100 } : t
+              );
+            }
+
+            return prev.map((t) =>
+              t.id === task.id ? { ...t, progress: nextProgress } : t
+            );
+          });
+        }, intervalTime);
+
+        timers.push(progressInterval);
+      }, task.delay);
+
+      timers.push(startTimeout);
+    });
+
+    return () => {
+      timers.forEach((timer) => window.clearInterval(timer));
+    };
+  }, [state, tasks.length]);
+
+  useEffect(() => {
     if (state === "processing" && completedCount === tasks.length && tasks.length > 0) {
       const timer = window.setTimeout(() => setState("cleaning"), 1000);
       return () => window.clearTimeout(timer);
@@ -256,6 +307,21 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
     setShowSidebar(true);
     setSidebarMinimized(false);
     setShowCardStack(true);
+  };
+
+  const startProcessing = () => {
+    if (tasks.length === 0) return;
+    setCompletedCount(0);
+    setTasks((prev) =>
+      prev.map((t) => ({
+        ...t,
+        status: "pending",
+        progress: 0,
+      }))
+    );
+    setShowSidebar(true);
+    setSidebarMinimized(false);
+    setState("processing");
   };
 
   const nextCard = () => setCurrentCardIndex((prev) => (prev + 1) % tasks.length);
@@ -515,7 +581,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                 </div>
 
                 <div className="flex justify-end pt-1">
-                  <Button onClick={handleRecordClick} className="gap-2">
+                  <Button onClick={startProcessing} className="gap-2">
                     <Check size={14} />
                     Approve & Continue
                   </Button>
