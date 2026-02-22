@@ -267,6 +267,21 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
         setTasks((prev) =>
           prev.map((t) => (t.id === task.id ? { ...t, status: "processing" } : t))
         );
+        void api
+          .mockExecuteAction(companyId, {
+            task_id: task.id,
+            description: task.title,
+            response_type: task.type,
+            recipient: task.recipient,
+            people: task.people || [],
+            urgency: task.details?.split(" • ")[0],
+            run_email_test: true,
+            run_call_test: true,
+            run_ticket_test: true,
+          })
+          .catch((err) => {
+            console.error("Mock action execution failed:", err);
+          });
 
         const intervalTime = 60;
         const steps = Math.max(task.duration / intervalTime, 10);

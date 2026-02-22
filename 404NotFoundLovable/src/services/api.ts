@@ -70,6 +70,19 @@ export interface UploadResponse {
   files: { filename: string; size: number; path: string }[];
 }
 
+export interface MockExecuteActionRequest {
+  task_id: string;
+  description: string;
+  response_type?: string;
+  recipient?: string;
+  people?: string[];
+  urgency?: string;
+  phone_number?: string;
+  run_email_test?: boolean;
+  run_call_test?: boolean;
+  run_ticket_test?: boolean;
+}
+
 // ─── Transform Helpers ──────────────────────────────────────────────────────
 
 function splitName(fullName: string): { name: string; surname: string } {
@@ -274,6 +287,24 @@ export const api = {
     if (!res.ok) {
       const error = await res.json().catch(() => ({}));
       throw new Error(error.detail || "Failed to process transcript");
+    }
+
+    return res.json();
+  },
+
+  async mockExecuteAction(
+    companyId: number,
+    payload: MockExecuteActionRequest
+  ): Promise<{ success: boolean; status: string; message: string; task_id: string }> {
+    const res = await fetch(`${API_BASE}/companies/${companyId}/actions/mock-execute`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.detail || "Failed to queue mock action");
     }
 
     return res.json();
