@@ -1,0 +1,74 @@
+[
+  {
+    "id": "b7f8a7e7-0c71-4b69-b30b-6e9c9a0d16db",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "Dylan send meeting minutes to attendees",
+    "description": "Draft minutes from the strategy session and distribute to all attendees. Include the action items.",
+    "assigned_to_department": null,
+    "assigned_to_person": "Anna",
+    "sequence": 1,
+    "response_type": "email",
+    "urgency": null
+  },
+  {
+    "id": "6b2bfa5f-4c0a-4a31-9e5d-6d7c0f2db9a7",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "Dylan schedule a 30-minute follow-up next Tuesday for Client A",
+    "description": "Find a 30-min slot next Tuesday for the quarterly review sync with Client A and schedule it.",
+    "assigned_to_department": null,
+    "assigned_to_person": "Dylan",
+    "sequence": 2,
+    "response_type": "schedule/ticket",
+    "urgency": null
+  },
+  {
+    "id": "d2d93f1e-7fa3-4a87-9c2a-6c0d0f8d54f6",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "Dylan clarify edge cases for the new authentication flow",
+    "description": "Dylan Discuss the edge cases for the new authentication flow with the Product Owner.",
+    "assigned_to_department": null,
+    "assigned_to_person": "Product Owner",
+    "sequence": 3,
+    "response_type": "call/discuss",
+    "urgency": null
+  },
+  {
+    "id": "b1a3b4ef-6f9e-4c2f-85b0-5a3c9e6212b4",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "introduce Sarah to the lead designer for asset handover",
+    "description": "Dylan Connect Sarah with the lead designer to start the asset handover.",
+    "assigned_to_department": "Design",
+    "assigned_to_person": "Sarah",
+    "sequence": 4,
+    "response_type": "email/intro",
+    "urgency": null
+  },
+  {
+    "id": "1f0d61f4-0e6c-4d40-9f74-5d4a2c87c3b9",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "Dylan complete competitor analysis of top 3 competitors",
+    "description": "Review the top 3 competitors' pricing models and feature sets and summarize findings.",
+    "assigned_to_department": null,
+    "assigned_to_person": "Dylan",
+    "sequence": 5,
+    "response_type": "analyze/ticket",
+    "urgency": null
+  },
+  {
+    "id": "6aa1e27d-85d8-4ab2-9f0f-8b6b3c8c5c4e",
+    "meeting_id": 1,
+    "project_id": null,
+    "action": "Dylan block 2 hours of focus time on Friday for backend architecture",
+    "description": "Reserve 2 hours on Friday for deep work on the backend architecture.",
+    "assigned_to_department": null,
+    "assigned_to_person": "Dylan",
+    "sequence": 6,
+    "response_type": "schedule/block",
+    "urgency": null
+  }
+]

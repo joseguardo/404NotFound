@@ -107,6 +107,15 @@ export function TranscriptUploadModal({
     }
   };
 
+  const advanceToResultsIfDone = (files: UploadedFile[]) => {
+    const hasActive = files.some(
+      (f) => f.status === "pending" || f.status === "processing"
+    );
+    if (!hasActive) {
+      setStep("results");
+    }
+  };
+
   const handleProcessFile = async (filename: string) => {
     // Update status to processing
     setUploadedFiles((prev) =>
@@ -118,21 +127,25 @@ export function TranscriptUploadModal({
     try {
       const result = await api.processTranscript(companyId, filename);
 
-      setUploadedFiles((prev) =>
-        prev.map((f) =>
+      setUploadedFiles((prev) => {
+        const updated = prev.map((f) =>
           f.filename === filename
             ? { ...f, status: "completed", result }
             : f
-        )
-      );
+        );
+        advanceToResultsIfDone(updated);
+        return updated;
+      });
     } catch (err) {
-      setUploadedFiles((prev) =>
-        prev.map((f) =>
+      setUploadedFiles((prev) => {
+        const updated = prev.map((f) =>
           f.filename === filename
             ? { ...f, status: "error", error: (err as Error).message }
             : f
-        )
-      );
+        );
+        advanceToResultsIfDone(updated);
+        return updated;
+      });
     }
   };
 

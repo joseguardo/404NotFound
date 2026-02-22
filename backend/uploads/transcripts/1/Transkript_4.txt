@@ -1,0 +1,84 @@
+HackEurope Dublin — Bracelets & Pizza Logistics Check-in
+Date: March 2, 2026
+Participants:
+
+Cian McGlynn — Chair (Dublin)
+Tim Tay — Head of Operations
+Emer O'Connor — Head of Design
+Hubert Stanowski — Head of UX
+Aryaman Dey — Head of Partnerships & Finance
+
+
+Cian: Thanks everyone. Tim locked the headcount this morning — 187 confirmed attendees, plus 22 volunteers and 15 sponsor representatives. That's 224 people total. So we're green-lit on bracelets and pizza. Let's move.
+
+Bracelets
+Cian: Emer, Hubert — you're up first. What's the bracelet plan?
+Emer: I've been sketching concepts since last week so I wouldn't lose time. I want to do three colour tiers: blue for attendees, green for volunteers, and black for sponsors and VIPs. Each bracelet has the HackEurope logo, the Dublin event date, and a unique QR code.
+Hubert: The QR code is key. I've been working with Luke on this — each QR links to the attendee's profile page on our event app. When someone scans it, they see the person's name, project, and team. It's a networking enabler. I've tested the scan flow on three different phone models and it works cleanly. The QR needs to be at least 1.5 cm wide to scan reliably, so Emer, make sure the design accommodates that.
+Emer: Already factored in. I'll position the QR on the inner side of the bracelet so the outer face stays clean with just the logo and colour band.
+Cian: Love it. What are the quantities?
+Emer: Based on Tim's numbers: 187 blue, 22 green, 15 black. I'm adding a 10% buffer on each — so the order will be 206 blue, 25 green, 17 black. Total: 248 bracelets.
+Tim: Agreed on the buffer. Matches what we've done at past events.
+Cian: Emer, when can you have the final design files ready?
+Emer: I'll deliver print-ready files to Aryaman and Tim by Wednesday — that's two days from now. The files will include colour specs (Pantone references), dimensions, QR code placement guide, and a mock-up render so the vendor knows exactly what we expect.
+Cian: Great. Aryaman — procurement.
+Aryaman: I've already reached out to two suppliers — one Irish and one UK-based. The Irish supplier quoted €1.80 per unit for fabric wristbands with sublimation printing. The UK one is cheaper at €1.40 but shipping adds 5 days. Given our timeline, I recommend the Irish supplier. Total cost would be around €446 for 248 units.
+Cian: Timeline?
+Aryaman: Irish supplier promises 5 business days from receiving the artwork. If Emer delivers Wednesday and I place the order Thursday morning, we'd have them by the following Wednesday — that's 9 days before the event. Comfortable margin.
+Tim: Can they handle the QR codes? Each one is unique.
+Aryaman: Yes, I confirmed. They do variable data printing — we send them a CSV with 248 unique QR image files and they map each one to a bracelet. Hubert, can you generate those QR files?
+Hubert: Already on it. I'll have a ZIP folder with all 248 QR code PNGs named by attendee ID ready by Wednesday, same day as Emer's design files. I'll send the ZIP to Aryaman directly.
+Aryaman: Perfect. So my action is: receive files from Emer and Hubert on Wednesday, place the order Thursday, confirm the order with a receipt and delivery date to Geoffrey and Tim by Thursday evening.
+Tim: And when they arrive, I'll handle receiving at the venue. I'll do a count, check print quality on a sample, and test-scan five QR codes to make sure they work. Any issues and I flag Aryaman immediately to get replacements.
+Cian: Excellent. That's a clean chain: Emer + Hubert deliver files Wednesday → Aryaman orders Thursday → Tim receives and verifies the following Wednesday. Moving on.
+
+Pizza
+Cian: Alright, pizza time. Rachel and Faith sent me the dietary summary yesterday. Here's the breakdown: out of 187 attendees, 24 are vegetarian, 11 are vegan, 8 need halal, 6 are gluten-free, and 3 have nut allergies. The rest are standard. Volunteers and sponsors didn't submit dietary info — Tim, can you chase that?
+Tim: On it. I'll send a quick form to the 22 volunteers and 15 sponsor reps today and compile results by Thursday. I expect most will be standard but we should capture it.
+Cian: Good. Now, I scouted three pizzerias last week like we planned. Here's what I found:
+
+Dublin Pizza Co. — great quality, can handle bulk, but they cap at 150 pizzas per order and we'll need more.
+Slice of Heaven — mid-range quality, no order cap, very competitive pricing at €9 per large pizza (8 slices each).
+Forno 21 — premium artisan pizza, amazing quality, but €14 per pizza and they need 10 days notice.
+
+Aryaman: What's our pizza budget?
+Cian: Geoffrey approved up to €2,200 for food. Let me do the maths. We need to feed 224 people. Assuming 2.5 slices per person on average — people are hacking, they snack — that's 560 slices. At 8 slices per pizza, we need 70 pizzas, plus a 10% buffer so let's say 77 pizzas.
+Aryaman: At Slice of Heaven that's €693. At Forno 21 that's €1,078. Both well within budget. The question is quality versus simplicity.
+Cian: I'd recommend Slice of Heaven for the bulk order — standard and vegetarian pizzas — and a smaller order from Forno 21 for the vegan, gluten-free, and specialty options. Forno 21 does excellent vegan pizzas with proper cashew mozzarella, and they have a gluten-free base that's actually good.
+Aryaman: So a split order. Let me sketch it: Slice of Heaven handles roughly 60 standard and vegetarian pizzas at €9 each — that's €540. Forno 21 handles 17 specialty pizzas (vegan, gluten-free, halal) at €14 each — that's €238. Total: €778. Well under budget.
+Cian: We'll also want drinks and napkins but that's a separate line item. Tim, can you handle that?
+Tim: Yeah, I'll source drinks separately — water, soft drinks, maybe some juices. I'll keep it under €200 and send you the plan by Friday.
+Cian: Great. Aryaman, can you handle the vendor negotiations?
+Aryaman: Yes. I'll contact both pizzerias by Thursday — once Tim gets me the remaining dietary data for volunteers and sponsors, I'll finalise the exact order breakdown. I'll negotiate a bulk discount with Slice of Heaven (they usually do 10% off for orders over 50) and confirm the 10-day advance notice with Forno 21. I'll send the final menu, cost, and delivery schedule to Geoffrey for sign-off by Friday.
+Cian: Perfect.
+Tim: And on event day, I've already identified two volunteers who'll be stationed at the food area. They'll receive the deliveries, check every box against the order sheet, make sure the specialty pizzas are clearly labelled — we don't want someone with a nut allergy grabbing the wrong slice — and manage distribution. I'll brief them the week before.
+Cian: Critical detail on labelling. Emer, can you make small table tent cards for each pizza type? Just a folded card with the pizza name and allergen info in bold. Nothing fancy, but it needs to be legible from a metre away.
+Emer: Easy. I'll design a template and print them here — we have a colour printer. I'll have them ready the day before the event. I just need the final pizza list from Aryaman.
+Aryaman: I'll send you the confirmed menu by next Monday at the latest. That gives you nearly a week before the event.
+Emer: More than enough.
+
+Cian: Let's recap:
+Bracelets:
+
+Emer delivers design files → Wednesday
+Hubert delivers QR code PNGs → Wednesday
+Aryaman places order with Irish supplier → Thursday → confirms receipt and delivery date to Geoffrey & Tim by Thursday evening
+Tim receives and inspects shipment → following Wednesday → reports to Cian with photo and count
+
+Pizza:
+
+Tim collects dietary info from volunteers and sponsor reps → Thursday
+Aryaman contacts both pizzerias, negotiates, and finalises order → Thursday/Friday → sends menu and cost to Geoffrey for sign-off by Friday
+Aryaman confirms final menu to Emer → Monday (for table tent cards)
+Tim sources drinks and supplies → plan to Cian by Friday
+Emer designs and prints table tent cards → day before event
+Tim briefs food-area volunteers → week before event
+Tim's volunteers manage day-of delivery and distribution → event day → real-time updates to Cian
+
+Cian: All reporting goes through Tim for ops items and me for venue-specific decisions. Geoffrey gets the executive updates on budget sign-offs and milestone completions. Anything I'm missing?
+Tim: One thing — if either pizzeria can't confirm by Friday, we need a fallback. Cian, is there a fourth option you scouted?
+Cian: There's a place called Pinocchio's in Temple Bar that does decent bulk catering. I'll keep them as a backup and only engage if Aryaman flags an issue.
+Tim: Good enough. Let's roll.
+Cian: Thanks all. Talk soon.
+
+End of call.
