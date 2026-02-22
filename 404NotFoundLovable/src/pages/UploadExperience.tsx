@@ -130,7 +130,7 @@ export default function UploadExperience() {
   const recallZone = (
     <div className="border-2 border-dashed rounded-lg p-8 text-center">
       <Link2 className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
-      <p className="text-sm font-medium text-foreground">Import from Recall.ai</p>
+      <p className="text-sm font-medium text-foreground">Import text from Recall.ai</p>
       <p className="text-xs text-muted-foreground mt-1">
         Paste meeting URL/ID and add transcript into this flow
       </p>
@@ -155,7 +155,7 @@ export default function UploadExperience() {
               Importing...
             </>
           ) : (
-            "Import from Recall.ai"
+            "or direclty Import Recall.ai transcript file"
           )}
         </Button>
       </div>
