@@ -1,14 +1,13 @@
-Geoffrey: Thanks for joining. Let’s finalize applications today. We’ve delayed this twice already, and other departments are blocked until we lock the number.
-Cian: Agreed. I reviewed the full shortlisted pool this morning. The quality is strong, but capacity is our constraint.
-Max: From Stockholm’s side, we’re aligned on infrastructure for up to 320, but financially I’d prefer we cap at 300.
-Geoffrey: Paris operations confirmed they can comfortably manage 300. Anything beyond that increases catering and materials complexity.
-Cian: Then let’s finalize 300 accepted participants.
-Max: Agreed. Geoffrey: Good. Now operational follow-up. We need confirmation emails out quickly — within 24 hours ideally.
-Cian: Yes. Operations should handle sending confirmation emails, including instructions about check-in, badge collection, and required documents.
-Max: The email must clearly state confirmation deadline. We need responses within 72 hours.
-Geoffrey: Agreed. Let’s assign that to the Operations department.
-Cian: Once confirmations start coming in, IT must create accounts on the event platform for each confirmed participant.
-Max: Yes, and the accounts must include access to the project submission portal and Discord workspace.
-Geoffrey: Let’s not wait until the last minute. IT should prepare automation for this. Geoffrey: Now that we’ve confirmed 300 participants, we must verify sponsor revenue covers this scale.
-Cian: Exactly. More participants increase food, printing, and materials cost.
-Max: Finance needs to validate whether our sponsor commitments are sufficient.
+Aryaman: The CEOs confirmed 300 participants. First item: validate sponsor revenue against that number.
+Calista: I ran projections. With current confirmed sponsors, we are within budget even with food buffer and merchandise.
+Tim Farrelly: Including contingency margin?
+Calista: Yes. We maintain a 12% operational margin.
+Aryaman: Perfect. So budget validation is complete.
+Aryaman: Next topic — bracelets. With 300 participants, we need to define a hard cap.
+Oisín: Based on last year’s supplier prices, €400 should be sufficient.
+Calista: That gives us roughly €1.33 per participant.
+Tim Farrelly: That’s acceptable.
+Aryaman: Agreed. Let’s formally approve €400 total for the bracelet budget.
+Aryaman: I will now send a budget approval email to the Operations department so they can proceed with procurement.
+Calista: Include the exact number of participants in that email.
+Aryaman: Yes, and the approved budget ceiling.
