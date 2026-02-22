@@ -1,0 +1,73 @@
+HackEurope Dublin — Sponsor Outreach Strategy Meeting
+Date: February 24, 2026
+Participants:
+
+Billy Ly — Head of Sponsor Relations
+Aryaman Dey — Head of Partnerships & Finance
+Emer O'Connor — Head of Design
+Mario Fabelo — Videography
+Liam — Assistant Director (joined for the second half)
+
+
+Billy: Thanks for making time, everyone. We're two sponsors short for Dublin and Geoffrey wants movement fast. I've been working on a target list and I want to align with each of you on what we need to produce and when. Let's start with where we are.
+Aryaman: What's the revenue gap if we don't find them?
+Billy: Each sponsor slot is worth between €3,000 and €7,000 depending on the tier. We need at least €8,000 more to cover the venue upgrade Cian negotiated and the after-party budget. So realistically, we need one mid-tier and one top-tier sponsor, or two mid-tier plus we cut the after-party scope.
+Aryaman: Let's aim for the full amount. I've updated the sponsorship deck pricing — I'll send you the revised tier breakdown today. We have three tiers: Bronze at €3,000, Silver at €5,000, and Gold at €7,000. Each comes with different logo placement, booth space, and speaking slot options.
+Billy: Perfect. Send that to me by end of day — I need it to finalize the target list. Here's what I've got so far.
+
+Billy: I've identified 14 potential sponsors across three categories. First, tech companies with Dublin offices — there are five strong candidates including a major cloud provider and two fintech firms. Second, local Dublin businesses — three restaurants and a co-working space that might want brand visibility with a young tech crowd. Third, EU-focused organisations — six, including two EU innovation funds and a couple of foundations that support youth tech initiatives.
+Aryaman: The EU funds are interesting but they usually have longer procurement cycles. Are we going to have time?
+Billy: Good flag. I'm prioritising the tech companies and local businesses for speed. The EU organisations are backup — if we don't close the first wave in 10 days, I'll pivot to them and also escalate to the Board. Geoffrey already agreed to that timeline.
+Aryaman: Smart. So I'll tailor the value proposition slightly for each category — tech companies care about recruiting pipeline, local businesses care about foot traffic and visibility, EU orgs care about impact metrics.
+Billy: Exactly. Can you write up a one-pager for each category? Just a single page that highlights the three or four benefits most relevant to that type of sponsor. I'll weave them into the personalised emails.
+Aryaman: I'll have the three one-pagers to you by Wednesday. They'll reference the tier pricing I'm sending today.
+
+Billy: Great. Now, Emer — the pitch deck.
+Emer: Tell me what you need.
+Billy: A polished 10-slide sponsorship deck. I'll provide the content and copy — you handle the design. Here's the structure I'm thinking: cover slide, "About HackEurope" overview, Dublin event details (date, venue, expected attendance), audience demographics, sponsorship tiers with benefits, past event highlights, testimonials or logos from previous sponsors, media reach and social stats, a "Why Dublin" slide, and a closing CTA with contact info.
+Emer: That's clean. I can work with that. I'll use our existing brand kit and adapt it for Dublin — maybe pull in some Dublin imagery for the location slides. When do you need the first draft?
+Billy: Can you have a first draft by Thursday? That gives me and Geoffrey Friday to review, and we send feedback over the weekend. Final version locked by Monday.
+Emer: Thursday first draft is doable if I get the content from you by tomorrow evening. I can't design slides without the words, Billy.
+Billy: Fair. I'll send you the full slide-by-slide copy by tomorrow 8 PM. Deal?
+Emer: Deal. I'll also coordinate with Hubert on any interactive elements — if we want a QR code linking to a video or a live stats page, he'll make sure the UX is smooth.
+
+Billy: That brings us to you, Mario. I want a highlight reel.
+Mario: From past events?
+Billy: Yes. A 60-to-90-second video — high energy, showing the hacking, the presentations, the crowd, the energy. We embed it in the deck and also send it as a standalone link in outreach emails. Sponsors love seeing the vibe before they commit money.
+Mario: I've got footage from the Amsterdam and Lisbon events. I can cut something together. What's the tone — corporate and polished or raw and energetic?
+Billy: Energetic but not chaotic. Think "this is a serious event with serious energy." Music should be upbeat, no voiceover needed, but overlay some key stats — number of participants, countries represented, projects built. Aryaman, can you get Mario the latest stats?
+Aryaman: I'll pull the numbers from our post-event reports and send them to Mario by tomorrow.
+Mario: Cool. With the stats and footage, I can have a first cut by Friday. I'll share it in the #dublin-sponsors Slack channel for feedback.
+Billy: Perfect. Same review cycle — feedback over the weekend, final cut by Monday alongside the deck.
+
+Liam joins the call.
+Liam: Hey, sorry I'm late. What did I miss?
+Billy: Good timing. We just locked the production plan for the pitch materials. I wanted to talk to you about the outreach itself. Geoffrey mentioned you'd co-sign emails to the highest-value targets.
+Liam: Yeah, happy to. Which ones are we talking about?
+Billy: The top three on my list — the major cloud provider, the biggest fintech firm, and one of the EU innovation funds. Having the Assistant Director's name on the email adds weight. I'll draft the emails; you review and we send them from a shared "leadership@hackeurope" address with both our names.
+Liam: Works for me. When are emails going out?
+Billy: Next Tuesday — once the deck and video are finalised on Monday. I want everything polished before we make first contact. For the other prospects, I'll handle outreach myself with support from Rachel Ranjith — she's got LinkedIn connections to a couple of the Dublin-based companies.
+Liam: Good. And the follow-up cadence?
+Billy: If no response in 3 days, I send a follow-up. If still nothing after 5 days, I try a different channel — LinkedIn message, phone call, or ask Rachel or you for a warm intro. Every interaction gets logged in our CRM tracker. I'll post a weekly summary to Geoffrey every Friday.
+Liam: And if we're stuck after 10 days?
+Billy: Geoffrey escalates to the Board — Calista, Tim Farrelly, and Oisín. They open their networks. Any lead they generate comes back to me to close, with the Board member CC'd.
+Liam: Solid plan. I'll block time Tuesday morning to review the top-three emails with you before they go out.
+
+Billy: Alright, let me recap so we're all aligned:
+
+Aryaman sends revised tier pricing to Billy — today
+Billy sends slide-by-slide deck copy to Emer — tomorrow 8 PM
+Aryaman sends event stats to Mario — tomorrow
+Aryaman delivers three category one-pagers to Billy — Wednesday
+Emer delivers first draft of pitch deck — Thursday → feedback from Billy & Geoffrey Friday → final version Monday
+Mario delivers first cut of highlight reel — Friday via #dublin-sponsors → feedback over weekend → final cut Monday
+Billy & Liam review top-three outreach emails — Tuesday morning
+Billy sends first wave of outreach emails — Tuesday
+Billy updates CRM tracker daily; weekly summary to Geoffrey every Friday
+Day 10 checkpoint: if fewer than 1 sponsor secured → Geoffrey escalates to Board
+
+Billy: Once a sponsor confirms, I notify Geoffrey, Cian, and Reuban immediately — Reuban needs to know for co-branded marketing content. Aryaman handles the contract and payment from that point.
+Aryaman: I'll have a template sponsorship agreement ready by Monday so we can move fast once someone says yes.
+Billy: Perfect. Any questions? No? Let's go get those sponsors.
+
+End of call.

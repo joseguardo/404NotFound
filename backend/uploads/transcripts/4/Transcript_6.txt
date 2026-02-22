@@ -1,0 +1,31 @@
+Weekly Strategy Sync — Meeting ID: 1
+
+Mark (Facilitator): Quick wrap-up. We need to send minutes from today’s strategy session.
+Mark: Anna, can you draft the meeting minutes and email them to all attendees? Please include the action items.
+
+Anna: Yep — I’ll draft the minutes and send them out to everyone with the action items included.
+
+Mark: Next, we owe Client A a quarterly review sync.
+Mark: Can someone open a ticket and find a 30-minute slot next Tuesday for the quarterly review, then schedule it with Client A?
+
+Jordan (Ops): I’ll create the ticket and schedule a 30-minute slot next Tuesday for Client A’s quarterly review sync.
+
+Mark: On the new authentication flow — we still don’t have clarity on edge cases.
+Mark: Product Owner, can you jump on a quick call with engineering to walk through the edge cases for the new authentication flow?
+
+Product Owner: Yes, I’ll do a call with the team and we’ll go through the edge cases for the new auth flow.
+
+Mark: Design handoff — Sarah needs to connect with the lead designer.
+Mark: Sarah, please email the lead designer and introduce yourselves so the asset handover can start.
+
+Sarah: Got it — I’ll email the lead designer today to kick off the asset handover.
+
+Mark: We also need an internal competitor analysis.
+Mark: Let’s create a ticket for competitor analysis: review the top three competitors’ pricing models and feature sets and share a short summary.
+
+Priya (PM): I’ll take that — I’ll do the competitor analysis on the top 3 competitors’ pricing and features and share the summary.
+
+Mark: Finally, we need focused architecture time.
+Mark: I’m blocking two hours on Friday for deep work on the backend architecture.
+
+Mark: That’s everything — thanks all.

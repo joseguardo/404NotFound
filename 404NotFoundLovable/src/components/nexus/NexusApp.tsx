@@ -301,7 +301,7 @@ export default function NexusApp({
         onCreateClick={() => setCmdOpen(true)}
         onUploadClick={() =>
           navigate(
-            `/app/upload-experience?companyName=${encodeURIComponent(
+            `/app/upload-experience?companyId=${company.id}&companyName=${encodeURIComponent(
               company.company_name || "Organization"
             )}`
           )

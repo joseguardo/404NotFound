@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   FileText,
@@ -22,7 +22,8 @@ import {
   X,
   Network,
 } from "lucide-react";
-import { CompanyGraph } from "./CompanyGraph";
+import { CompanyGraphDynamic } from "./CompanyGraphDynamic";
+import { api, ProcessingResponse } from "@/services/api";
 
 type TaskType = "email" | "call" | "calendar" | "research";
 
@@ -36,77 +37,18 @@ interface Task {
   delay: number;
   duration: number;
   details?: string;
+  backendFilename?: string;
+  actions?: ProcessingResponse;
+  people?: string[];
 }
 
-const MOCK_TASKS: Task[] = [
-  {
-    id: "1",
-    type: "email",
-    title: "Send meeting minutes",
-    recipient: "Team",
-    status: "pending",
-    progress: 0,
-    delay: 500,
-    duration: 2000,
-    details:
-      "Draft minutes from the strategy session and distribute to all attendees. Include action items.",
-  },
-  {
-    id: "2",
-    type: "calendar",
-    title: "Schedule follow-up",
-    recipient: "Client A",
-    status: "pending",
-    progress: 0,
-    delay: 1200,
-    duration: 1500,
-    details: "Find a 30-min slot next Tuesday for the quarterly review sync.",
-  },
-  {
-    id: "3",
-    type: "call",
-    title: "Clarify requirements",
-    recipient: "Product Owner",
-    status: "pending",
-    progress: 0,
-    delay: 800,
-    duration: 3000,
-    details: "Discuss the edge cases for the new authentication flow.",
-  },
-  {
-    id: "4",
-    type: "email",
-    title: "Intro to Design Team",
-    recipient: "Sarah",
-    status: "pending",
-    progress: 0,
-    delay: 2500,
-    duration: 1800,
-    details: "Connect Sarah with the lead designer to start the asset handover.",
-  },
-  {
-    id: "5",
-    type: "research",
-    title: "Competitor Analysis",
-    recipient: "Internal",
-    status: "pending",
-    progress: 0,
-    delay: 200,
-    duration: 4000,
-    details: "Review the top 3 competitors pricing models and feature sets.",
-  },
-  {
-    id: "6",
-    type: "calendar",
-    title: "Block focus time",
-    recipient: "Self",
-    status: "pending",
-    progress: 0,
-    delay: 3000,
-    duration: 1000,
-    details: "Reserve 2 hours on Friday for deep work on the backend architecture.",
-  },
-];
+export interface UploadTask {
+  id: string;
+  title: string;
+  recipient?: string;
+  type: TaskType;
+  backendFilename: string;
+}
 
 type AppState =
   | "idle"
@@ -115,11 +57,31 @@ type AppState =
   | "reviewing"
   | "processing"
   | "cleaning"
-  | "recorded";
+  | "recorded"
+  | "error";
 
-export function TaskUnpacker() {
+interface TaskUnpackerProps {
+  companyId: number;
+  tasks: UploadTask[];
+  onReset: () => void;
+}
+
+export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskUnpackerProps) {
+  const seededTasks = useMemo<Task[]>(
+    () =>
+      uploadedTasks.map((t, idx) => ({
+        ...t,
+        status: "pending",
+        progress: 0,
+        delay: 400 + idx * 300,
+        duration: 2200 + idx * 200,
+      })),
+    [uploadedTasks]
+  );
+
   const [state, setState] = useState<AppState>("idle");
-  const [tasks, setTasks] = useState<Task[]>(MOCK_TASKS);
+  const [tasks, setTasks] = useState<Task[]>(seededTasks);
+  const tasksRef = useRef<Task[]>(seededTasks);
   const [completedCount, setCompletedCount] = useState(0);
   const [showSidebar, setShowSidebar] = useState(false);
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
@@ -128,10 +90,11 @@ export function TaskUnpacker() {
   const [showCardStack, setShowCardStack] = useState(false);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [showWorkflow, setShowWorkflow] = useState(false);
+  const [activePeople, setActivePeople] = useState<string[]>([]);
 
-  const reset = () => {
-    setState("idle");
-    setTasks(MOCK_TASKS.map((t) => ({ ...t, status: "pending", progress: 0 })));
+  useEffect(() => {
+    setTasks(seededTasks);
+    tasksRef.current = seededTasks;
     setCompletedCount(0);
     setShowSidebar(false);
     setSidebarMinimized(false);
@@ -140,16 +103,24 @@ export function TaskUnpacker() {
     setCurrentCardIndex(0);
     setActiveGraphTaskId(null);
     setShowWorkflow(false);
-  };
+    if (seededTasks.length > 0) {
+      setState("dropping");
+      window.setTimeout(() => setState("unpacking"), 800);
+    }
+  }, [seededTasks]);
 
   const startDrop = () => {
     setState("dropping");
-    window.setTimeout(() => setState("unpacking"), 1500);
+    window.setTimeout(() => setState("unpacking"), 1000);
   };
 
   useEffect(() => {
     if (state !== "unpacking") return;
-    const timer = window.setTimeout(() => setState("reviewing"), 1000);
+    const timer = window.setTimeout(() => {
+      setState("processing");
+      setShowSidebar(true);
+      setSidebarMinimized(false);
+    }, 600);
     return () => window.clearTimeout(timer);
   }, [state]);
 
@@ -166,57 +137,110 @@ export function TaskUnpacker() {
     setSelectedTaskIds(new Set());
   };
 
-  const startProcessing = () => {
-    setState("processing");
-    setShowSidebar(true);
-    setSidebarMinimized(false);
+  const mapResponseType = (response: string | undefined): TaskType => {
+    if (!response) return "research";
+    const r = response.toLowerCase();
+    if (r.includes("email")) return "email";
+    if (r.includes("call")) return "call";
+    if (r.includes("calendar")) return "calendar";
+    return "research";
   };
 
   useEffect(() => {
     if (state !== "processing") return;
 
-    const intervals: number[] = [];
+    let cancelled = false;
 
-    tasks.forEach((task) => {
-      const startTimeout = window.setTimeout(() => {
+    const processAll = async () => {
+      const intervals: number[] = [];
+      const actionTasks: Task[] = [];
+
+      for (const task of tasksRef.current) {
         setTasks((prev) =>
           prev.map((t) => (t.id === task.id ? { ...t, status: "processing" } : t))
         );
 
-        const intervalTime = 50;
-        const steps = task.duration / intervalTime;
+        const intervalTime = 80;
+        const steps = Math.max(task.duration / intervalTime, 10);
         const increment = 100 / steps;
-
         const progressInterval = window.setInterval(() => {
-          setTasks((prev) => {
-            const currentTask = prev.find((t) => t.id === task.id);
-            if (!currentTask) return prev;
-
-            const newProgress = Math.min(currentTask.progress + increment, 100);
-            if (newProgress >= 100) {
-              window.clearInterval(progressInterval);
-              setCompletedCount((c) => c + 1);
-              return prev.map((t) =>
-                t.id === task.id
-                  ? { ...t, progress: 100, status: "completed" }
-                  : t
-              );
-            }
-
-            return prev.map((t) =>
-              t.id === task.id ? { ...t, progress: newProgress } : t
-            );
-          });
+          setTasks((prev) =>
+            prev.map((t) =>
+              t.id === task.id
+                ? { ...t, progress: Math.min(t.progress + increment, 95) }
+                : t
+            )
+          );
         }, intervalTime);
-
         intervals.push(progressInterval);
-      }, task.delay);
 
-      intervals.push(startTimeout);
-    });
+        try {
+          const result = await api.processTranscript(companyId, task.backendFilename || task.title);
+          window.clearInterval(progressInterval);
+          const actions = result.projects.flatMap((p) => p.first_actions);
 
-    return () => intervals.forEach((id) => window.clearInterval(id));
-  }, [state, tasks.length]);
+          // mark file task completed for animation continuity
+          setTasks((prev) =>
+            prev.map((t) =>
+              t.id === task.id ? { ...t, status: "completed", progress: 100 } : t
+            )
+          );
+
+          actions.forEach((action) => {
+            actionTasks.push({
+              id: `${task.id}-${action.action_index}`,
+              title: action.description,
+              recipient: action.people?.join(", ") || action.department,
+              type: mapResponseType(action.response_type),
+              status: "completed",
+              progress: 100,
+              delay: 0,
+              duration: 0,
+              details: `${action.urgency} • ${action.department}`,
+              backendFilename: task.backendFilename,
+              people: action.people,
+            });
+          });
+        } catch (err) {
+          window.clearInterval(progressInterval);
+          setTasks((prev) =>
+            prev.map((t) =>
+              t.id === task.id
+                ? {
+                    ...t,
+                    status: "completed",
+                    progress: 100,
+                    details: (err as Error).message,
+                  }
+                : t
+            )
+          );
+        }
+      }
+
+      intervals.forEach((i) => window.clearInterval(i));
+
+      if (cancelled) return;
+
+      if (actionTasks.length > 0) {
+        setTasks(actionTasks);
+        tasksRef.current = actionTasks;
+        setCompletedCount(actionTasks.length);
+        setSelectedTaskIds(new Set());
+        setShowSidebar(false);
+        setSidebarMinimized(false);
+        setState("reviewing");
+      } else {
+        setState("error");
+      }
+    };
+
+    processAll();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [state, companyId]);
 
   useEffect(() => {
     if (state === "processing" && completedCount === tasks.length && tasks.length > 0) {
@@ -358,13 +382,27 @@ export function TaskUnpacker() {
             </motion.button>
           )}
 
+          {state === "reviewing" && (
+            <motion.button
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRecordClick}
+              className="bg-stone-900 text-white px-6 py-3 rounded-xl font-medium shadow-lg flex items-center gap-2"
+            >
+              <Check size={20} />
+              Approve All
+            </motion.button>
+          )}
+
           {state === "recorded" && (
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={reset}
+              onClick={onReset}
               className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg flex items-center gap-2"
             >
               <Sparkles size={20} />
@@ -405,15 +443,19 @@ export function TaskUnpacker() {
           </AnimatePresence>
 
           <AnimatePresence>
-            {state === "reviewing" && (
-              <div className="absolute bottom-10 z-50 flex items-end gap-4 pointer-events-none">
-                <motion.div
-                  initial={{ opacity: 0, x: -20, scale: 0.9 }}
-                  animate={{ opacity: 1, x: 0, scale: 1 }}
-                  exit={{ opacity: 0, x: -20, scale: 0.9 }}
+          {state === "reviewing" && (
+            <div className="absolute bottom-10 z-50 flex items-end gap-4 pointer-events-none">
+              <motion.div
+                initial={{ opacity: 0, x: -20, scale: 0.9 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -20, scale: 0.9 }}
                   className="w-[300px] h-[300px] pointer-events-auto"
                 >
-                  <CompanyGraph activeTaskId={activeGraphTaskId} className="w-full h-full" />
+                  <CompanyGraphDynamic
+                    companyId={companyId}
+                    activePeople={activePeople}
+                    className="w-full h-full"
+                  />
                 </motion.div>
 
                 <motion.div
@@ -429,7 +471,7 @@ export function TaskUnpacker() {
                     </div>
                     <div className="flex gap-2">
                       <button
-                        onClick={startProcessing}
+                        onClick={handleRecordClick}
                         className="bg-stone-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-stone-800 transition-colors flex items-center gap-2"
                       >
                         <Check size={16} /> Approve All
@@ -442,8 +484,14 @@ export function TaskUnpacker() {
                       <div
                         key={task.id}
                         onClick={() => toggleTaskSelection(task.id)}
-                        onMouseEnter={() => setActiveGraphTaskId(task.id)}
-                        onMouseLeave={() => setActiveGraphTaskId(null)}
+                        onMouseEnter={() => {
+                          setActiveGraphTaskId(task.id);
+                          setActivePeople(task.people || []);
+                        }}
+                        onMouseLeave={() => {
+                          setActiveGraphTaskId(null);
+                          setActivePeople([]);
+                        }}
                         className={`p-3 rounded-lg border cursor-pointer transition-all flex items-center justify-between ${
                           selectedTaskIds.has(task.id)
                             ? "bg-blue-50 border-blue-200 ring-1 ring-blue-200"
@@ -725,7 +773,11 @@ export function TaskUnpacker() {
                         exit={{ opacity: 0, x: 20 }}
                         className="absolute -right-[320px] top-0 bottom-0 w-[300px]"
                       >
-                        <CompanyGraph activeTaskId={tasks[currentCardIndex].id} className="w-full h-full" />
+                              <CompanyGraphDynamic
+                                companyId={companyId}
+                                activePeople={tasks[currentCardIndex].people || []}
+                                className="w-full h-full"
+                              />
                       </motion.div>
                     )}
                   </AnimatePresence>
