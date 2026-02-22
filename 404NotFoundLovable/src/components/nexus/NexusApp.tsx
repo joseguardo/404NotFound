@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import {
   AlertDialog,
@@ -38,6 +39,7 @@ export default function NexusApp({
   initialDepartments,
   onBack,
 }: NexusAppProps) {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [isSaving, setIsSaving] = useState(false);
 
@@ -297,7 +299,13 @@ export default function NexusApp({
         view={view}
         onViewChange={setView}
         onCreateClick={() => setCmdOpen(true)}
-        onUploadClick={() => setUploadModalOpen(true)}
+        onUploadClick={() =>
+          navigate(
+            `/app/upload-experience?companyName=${encodeURIComponent(
+              company.company_name || "Organization"
+            )}`
+          )
+        }
         companyName={company.company_name || "Untitled Company"}
         onBack={onBack}
         onSave={handleSaveToCloud}

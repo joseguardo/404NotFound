@@ -1,0 +1,5 @@
+{
+  "name": "Task Unpacker",
+  "description": "A visual simulation of processing meeting transcripts into actionable tasks with smooth animations.",
+  "requestFramePermissions": []
+}
