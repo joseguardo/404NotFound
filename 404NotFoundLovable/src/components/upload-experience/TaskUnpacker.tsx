@@ -152,6 +152,14 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
     return "research";
   };
 
+  const getMockTiming = (seed: string, index: number) => {
+    const sum = seed.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    const variance = ((sum + index * 37) % 9) - 4; // -4..+4
+    const delay = Math.max(220, Math.round((450 + index * 320 + variance * 60) * 1.3));
+    const duration = Math.max(1500, Math.round((2300 + index * 340 + variance * 110) * 1.3));
+    return { delay, duration };
+  };
+
   useEffect(() => {
     if (state !== "analyzing") return;
 
@@ -193,6 +201,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
           );
 
                   actions.forEach((action) => {
+                    const timing = getMockTiming(task.id, action.action_index);
                     actionTasks.push({
                       id: `${task.id}-${action.action_index}`,
                       title: action.description,
@@ -200,8 +209,8 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
               type: mapResponseType(action.response_type),
               status: "pending",
               progress: 0,
-              delay: 350 + action.action_index * 250,
-              duration: 2000 + action.action_index * 250,
+              delay: timing.delay,
+              duration: timing.duration,
               details: `${action.urgency} • ${action.department}`,
               backendFilename: task.backendFilename,
               people: action.people,
