@@ -24,7 +24,6 @@ import {
   ConnectionPicker,
   TranscriptUploadModal,
 } from "./Modals";
-import { api } from "@/services/api";
 import { Department } from "./types";
 import { Company } from "@/services/api";
 
@@ -275,26 +274,13 @@ export default function NexusApp({
     });
   }, [resetToSeed, toast]);
 
-  // Handle transcript upload
-  const handleUploadTranscripts = useCallback(
-    async (files: File[]) => {
-      try {
-        await api.uploadTranscripts(company.id, files);
-        toast({
-          title: "Transcripts uploaded",
-          description: `${files.length} file${files.length > 1 ? "s" : ""} uploaded successfully.`,
-        });
-      } catch (err) {
-        toast({
-          title: "Upload failed",
-          description: "Could not upload transcripts. Please try again.",
-          variant: "destructive",
-        });
-        throw err;
-      }
-    },
-    [company.id, toast]
-  );
+  // Handle transcript processing complete
+  const handleTranscriptComplete = useCallback(() => {
+    toast({
+      title: "Processing complete",
+      description: "Transcript actions have been extracted and saved.",
+    });
+  }, [toast]);
 
   // Connection count for selected person
   const connectionCount = selectedPerson
@@ -398,7 +384,8 @@ export default function NexusApp({
       <TranscriptUploadModal
         open={uploadModalOpen}
         onOpenChange={setUploadModalOpen}
-        onUpload={handleUploadTranscripts}
+        companyId={company.id}
+        onUploadComplete={handleTranscriptComplete}
       />
 
       {/* Person panel */}

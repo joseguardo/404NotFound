@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <g transform="translate(15, 8)">
+    <!-- Linear circle logo with diagonal lines -->
+    <circle cx="22" cy="22" r="20" fill="#1a1a1a"/>
+    <g stroke="#fff" stroke-width="2.5" stroke-linecap="round">
+      <line x1="8" y1="30" x2="30" y2="8"/>
+      <line x1="8" y1="36" x2="36" y2="8"/>
+      <line x1="14" y1="36" x2="36" y2="14"/>
+    </g>
+  </g>
+  <!-- Text "Linear" -->
+  <text x="60" y="38" font-family="Arial, sans-serif" font-weight="600" font-size="26" fill="#1a1a1a">Linear</text>
+</svg>

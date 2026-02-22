@@ -1,4 +1,5 @@
 import { Hero } from "@/components/landing/Hero";
+import { Integrations } from "@/components/landing/Integrations";
 import { ValueProps } from "@/components/landing/ValueProps";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon } from "lucide-react";
@@ -23,6 +24,7 @@ export default function LandingPage() {
         )}
       </Button>
       <Hero />
+      <Integrations />
       <ValueProps />
 
       <footer className="py-8 px-6 text-center text-muted-foreground text-sm border-t border-border/50">

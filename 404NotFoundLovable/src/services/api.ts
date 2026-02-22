@@ -33,6 +33,43 @@ export interface StructureResponse {
   departments: APIDepartment[];
 }
 
+// ─── Processing Types ──────────────────────────────────────────────────────
+
+export type UrgencyLevel = "VERY HIGH" | "HIGH" | "MEDIUM" | "LOW";
+export type ResponseType = "both" | "call" | "email" | "none";
+
+export interface ActionResponse {
+  description: string;
+  people: string[];
+  department: string;
+  urgency: UrgencyLevel;
+  response_type: ResponseType;
+  depends_on: number[];
+  action_index: number;
+}
+
+export interface ProjectResponse {
+  project_id: number;
+  project_name: string;
+  actions: ActionResponse[];
+  first_actions: ActionResponse[];
+}
+
+export interface ProcessingResponse {
+  success: boolean;
+  error?: string;
+  execution_time: number;
+  total_topics: number;
+  total_projects: number;
+  total_actions: number;
+  projects: ProjectResponse[];
+}
+
+export interface UploadResponse {
+  message: string;
+  files: { filename: string; size: number; path: string }[];
+}
+
 // ─── Transform Helpers ──────────────────────────────────────────────────────
 
 function splitName(fullName: string): { name: string; surname: string } {
@@ -206,7 +243,7 @@ export const api = {
 
   // ─── Transcripts ─────────────────────────────────────────────────────────
 
-  async uploadTranscripts(companyId: number, files: File[]): Promise<void> {
+  async uploadTranscripts(companyId: number, files: File[]): Promise<UploadResponse> {
     const formData = new FormData();
     files.forEach((file) => {
       formData.append("files", file);
@@ -221,6 +258,25 @@ export const api = {
       const error = await res.json().catch(() => ({}));
       throw new Error(error.detail || "Failed to upload transcripts");
     }
+
+    return res.json();
+  },
+
+  async processTranscript(
+    companyId: number,
+    filename: string
+  ): Promise<ProcessingResponse> {
+    const res = await fetch(
+      `${API_BASE}/companies/${companyId}/transcripts/${encodeURIComponent(filename)}/process`,
+      { method: "POST" }
+    );
+
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({}));
+      throw new Error(error.detail || "Failed to process transcript");
+    }
+
+    return res.json();
   },
 
   // ─── Health ───────────────────────────────────────────────────────────────

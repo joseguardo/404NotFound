@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.routers import companies, structure, people, transcripts
+from backend.routers import companies, structure, people, transcripts, phone_calls
 
 app = FastAPI(
     title="Nexus API",
@@ -27,6 +27,7 @@ app.include_router(companies.router)
 app.include_router(structure.router)
 app.include_router(people.router)
 app.include_router(transcripts.router)
+app.include_router(phone_calls.router)
 
 
 @app.get("/")
