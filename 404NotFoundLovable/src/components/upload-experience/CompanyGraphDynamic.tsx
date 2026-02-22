@@ -142,76 +142,82 @@ export function CompanyGraphDynamic({ companyId, activePeople, className = "" }:
         </span>
       </div>
 
-      <svg
+      <div
         className="absolute inset-0 w-full h-full z-0 cursor-grab"
         onWheel={handleWheel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
-        style={{
-          transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
-          transformOrigin: "center",
-        }}
       >
-        {edges.map((edge, i) => {
-          const fromNode = nodes.find((n) => n.id === edge.from)!;
-          const toNode = nodes.find((n) => n.id === edge.to)!;
-          const active = isActiveNode(toNode.label);
-          return (
-            <motion.line
-              key={i}
-              x1={fromNode.x}
-              y1={fromNode.y}
-              x2={toNode.x}
-              y2={toNode.y}
-              stroke={active ? "#10b981" : "#e7e5e4"}
-              strokeWidth={active ? 2 : 1}
-              strokeDasharray={active ? "0" : "4 4"}
-              animate={{
-                stroke: active ? "#10b981" : "#e7e5e4",
-                strokeWidth: active ? 2 : 1,
-              }}
-            />
-          );
-        })}
-      </svg>
+        <div
+          className="relative w-full h-full"
+          style={{
+            transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+            transformOrigin: "center",
+          }}
+        >
+          <svg className="absolute inset-0 w-full h-full pointer-events-none">
+            {edges.map((edge, i) => {
+              const fromNode = nodes.find((n) => n.id === edge.from)!;
+              const toNode = nodes.find((n) => n.id === edge.to)!;
+              const active = isActiveNode(toNode.label);
+              return (
+                <motion.line
+                  key={i}
+                  x1={fromNode.x}
+                  y1={fromNode.y}
+                  x2={toNode.x}
+                  y2={toNode.y}
+                  stroke={active ? "#10b981" : "#e7e5e4"}
+                  strokeWidth={active ? 2 : 1}
+                  strokeDasharray={active ? "0" : "4 4"}
+                  animate={{
+                    stroke: active ? "#10b981" : "#e7e5e4",
+                    strokeWidth: active ? 2 : 1,
+                  }}
+                />
+              );
+            })}
+          </svg>
 
-      {nodes.map((node) => {
-        const active = isActiveNode(node.label);
-        const Icon = node.kind === "dept" ? Building2 : User;
-        return (
-          <motion.div
-            key={node.id}
-            className={`absolute rounded-full border shadow-sm transition-all duration-300 flex items-center justify-center ${
-              active
-                ? "border-emerald-500 bg-emerald-50 text-emerald-700"
-                : "border-stone-200 bg-white text-stone-500"
-            }`}
-            style={{
-              left: node.x,
-              top: node.y,
-              padding: active || node.kind === "dept" ? "6px 10px" : "6px",
-            }}
-            animate={{
-              scale: active ? 1.1 : 0.9,
-              boxShadow: active ? "0 10px 25px rgba(16,185,129,0.2)" : "0 4px 10px rgba(0,0,0,0.05)",
-            }}
-          >
-            {node.kind === "dept" ? (
-              <div className="flex items-center gap-1.5 text-xs font-semibold">
-                <Users className="h-3.5 w-3.5" />
-                <span className="truncate max-w-[150px]">{node.label}</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1">
-                <Icon className="h-3.5 w-3.5" />
-                {active && <span className="text-[10px] font-semibold truncate max-w-[120px]">{node.label}</span>}
-              </div>
-            )}
-          </motion.div>
-        );
-      })}
+          {nodes.map((node) => {
+            const active = isActiveNode(node.label);
+            const Icon = node.kind === "dept" ? Building2 : User;
+            return (
+              <motion.div
+                key={node.id}
+                className={`absolute rounded-full border shadow-sm transition-all duration-300 flex items-center justify-center ${
+                  active
+                    ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                    : "border-stone-200 bg-white text-stone-500"
+                }`}
+                style={{
+                  left: node.x,
+                  top: node.y,
+                  padding: active || node.kind === "dept" ? "6px 10px" : "6px",
+                }}
+                animate={{
+                  scale: active ? 1.1 : 0.9,
+                  boxShadow: active ? "0 10px 25px rgba(16,185,129,0.2)" : "0 4px 10px rgba(0,0,0,0.05)",
+                }}
+              >
+                {node.kind === "dept" ? (
+                  <div className="flex items-center gap-1.5 text-xs font-semibold">
+                    <Users className="h-3.5 w-3.5" />
+                    <span className="truncate max-w-[150px]">{node.label}</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1">
+                    <Icon className="h-3.5 w-3.5" />
+                    {active && <span className="text-[10px] font-semibold truncate max-w-[120px]">{node.label}</span>}
+                  </div>
+                )}
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

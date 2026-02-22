@@ -187,11 +187,11 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
             )
           );
 
-          actions.forEach((action) => {
-            actionTasks.push({
-              id: `${task.id}-${action.action_index}`,
-              title: action.description,
-              recipient: action.people?.join(", ") || action.department,
+                  actions.forEach((action) => {
+                    actionTasks.push({
+                      id: `${task.id}-${action.action_index}`,
+                      title: action.description,
+                      recipient: action.people?.join(", ") || action.department,
               type: mapResponseType(action.response_type),
               status: "completed",
               progress: 100,
@@ -419,7 +419,7 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 50 }}
-                  className="bg-white/95 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-stone-200 w-[520px] flex flex-col gap-5 pointer-events-auto"
+                className="bg-white/95 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-stone-200 w-[520px] flex flex-col gap-5 pointer-events-auto translate-x-6"
                 >
                   <div className="flex justify-between items-center border-b border-stone-100 pb-3">
                     <div>
