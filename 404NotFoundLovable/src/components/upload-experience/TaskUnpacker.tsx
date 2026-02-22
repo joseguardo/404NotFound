@@ -333,6 +333,11 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
     setState("processing");
   };
 
+  const handleContinueUpload = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onReset();
+  };
+
   const nextCard = () => setCurrentCardIndex((prev) => (prev + 1) % tasks.length);
   const prevCard = () =>
     setCurrentCardIndex((prev) => (prev - 1 + tasks.length) % tasks.length);
@@ -868,6 +873,16 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                   <p className="text-stone-400 text-sm font-mono flex items-center gap-2">
                     Meeting ID: <span className="text-emerald-400">202602201230</span>
                   </p>
+                  <div className="mt-3 flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={handleContinueUpload}
+                      className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500 text-stone-950 hover:bg-emerald-400 transition-colors"
+                    >
+                      Continue Upload
+                    </button>
+                    <span className="text-[11px] text-stone-400">.txt, .pdf, .docx</span>
+                  </div>
                 </div>
               </motion.div>
             )}
