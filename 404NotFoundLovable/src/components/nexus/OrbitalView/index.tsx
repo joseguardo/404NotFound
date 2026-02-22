@@ -19,6 +19,7 @@ interface OrbitalViewProps {
   onSelectPerson: (person: Person, dept: Department) => void;
   onNodeDrag: (id: string, x: number, y: number) => void;
   onOpenCommandPalette: () => void;
+  companyName?: string;
 }
 
 export function OrbitalView({
@@ -31,6 +32,7 @@ export function OrbitalView({
   onSelectPerson,
   onNodeDrag,
   onOpenCommandPalette,
+  companyName = "Organization",
 }: OrbitalViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const dragRef = useRef<{
@@ -332,7 +334,7 @@ export function OrbitalView({
             fontWeight="600"
             fontFamily="inherit"
           >
-            Nexus
+            {companyName}
           </text>
           <text
             x={cx}

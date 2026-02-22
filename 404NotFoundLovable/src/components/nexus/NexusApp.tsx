@@ -311,6 +311,7 @@ export default function NexusApp({
           selectedPersonId={selectedPerson?.id || null}
           onSelectPerson={selectPerson}
           onOpenCommandPalette={() => setCmdOpen(true)}
+          companyName={company.company_name || "Organization"}
         />
       )}
       {view === "grid" && (
@@ -334,6 +335,7 @@ export default function NexusApp({
           onSelectPerson={selectPerson}
           onNodeDrag={updateNodePosition}
           onOpenCommandPalette={() => setCmdOpen(true)}
+          companyName={company.company_name || "Organization"}
         />
       )}
 

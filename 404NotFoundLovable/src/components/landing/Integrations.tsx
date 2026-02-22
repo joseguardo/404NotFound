@@ -1,7 +1,7 @@
 export function Integrations() {
   const logos = [
-    { src: "/logos/granola.svg", alt: "Granola" },
-    { src: "/logos/notion.svg", alt: "Notion" },
+    { src: "/logos/granola.png", alt: "Granola" },
+    { src: "/logos/notion.png", alt: "Notion" },
     { src: "/logos/linear.svg", alt: "Linear" },
   ];
 

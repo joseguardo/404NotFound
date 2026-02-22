@@ -11,6 +11,7 @@ interface HierarchyViewProps {
   selectedPersonId: string | null;
   onSelectPerson: (person: Person, dept: Department) => void;
   onOpenCommandPalette: () => void;
+  companyName?: string;
 }
 
 export function HierarchyView({
@@ -18,6 +19,7 @@ export function HierarchyView({
   selectedPersonId,
   onSelectPerson,
   onOpenCommandPalette,
+  companyName = "Organization",
 }: HierarchyViewProps) {
   // Empty state
   if (departments.length === 0) {
@@ -49,9 +51,9 @@ export function HierarchyView({
             <CardContent className="p-4 text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
                 <Crown className="h-4 w-4 text-primary" />
-                <span className="font-bold text-lg">Nexus</span>
+                <span className="font-bold text-lg">{companyName}</span>
               </div>
-              <span className="text-xs text-muted-foreground">Organization</span>
+              <span className="text-xs text-muted-foreground">Corporate Hierarchy</span>
             </CardContent>
           </Card>
 
