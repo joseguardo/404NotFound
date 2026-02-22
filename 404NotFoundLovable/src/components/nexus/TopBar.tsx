@@ -162,8 +162,7 @@ export function TopBar({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="min-w-40">
             <DropdownMenuItem onClick={onUploadClick} className="gap-2">
-              <Upload className="h-3.5 w-3.5" />
-              <span>Upload 📤</span>
+              <span>Upload</span>
             </DropdownMenuItem>
             <DropdownMenuItem onClick={onOverviewClick}>Overview</DropdownMenuItem>
           </DropdownMenuContent>

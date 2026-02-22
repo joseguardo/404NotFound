@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ArrowLeft, UploadCloud, Upload, FileText, X, Loader2 } from "lucide-react";
+import { ArrowLeft, UploadCloud, Upload, FileText, X, Loader2, Link2 } from "lucide-react";
 import { TaskUnpacker, UploadTask } from "@/components/upload-experience/TaskUnpacker";
 import { Button } from "@/components/ui/button";
 import { api, UploadResponse } from "@/services/api";
@@ -18,6 +18,8 @@ export default function UploadExperience() {
   const [step, setStep] = useState<Step>("select");
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isImportingRecall, setIsImportingRecall] = useState(false);
+  const [recallSource, setRecallSource] = useState("");
   const [uploaded, setUploaded] = useState<UploadTask[]>([]);
 
   useEffect(() => {
@@ -38,6 +40,32 @@ export default function UploadExperience() {
 
   const removeFile = (index: number) => {
     setFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleRecallImport = async () => {
+    if (!companyId) return;
+    setIsImportingRecall(true);
+    try {
+      // Frontend-only integration stub: creates transcript files from Recall source.
+      // These files flow through the exact same upload/process path as drag-and-drop files.
+      const now = new Date();
+      const stamp = now.toISOString().replace(/[:.]/g, "-");
+      const sourceLabel = recallSource.trim() || "recall-meeting";
+      const file = new File(
+        [
+          `Recall transcript import\ncompany=${companyName}\nsource=${sourceLabel}\nimported_at=${now.toISOString()}\n`,
+        ],
+        `recall-${stamp}.txt`,
+        { type: "text/plain" }
+      );
+      setFiles((prev) => [...prev, file]);
+      toast({
+        title: "Recall transcript added",
+        description: "Imported transcript is ready in Selected Files.",
+      });
+    } finally {
+      setIsImportingRecall(false);
+    }
   };
 
   const handleUpload = async () => {
@@ -99,6 +127,41 @@ export default function UploadExperience() {
     </div>
   );
 
+  const recallZone = (
+    <div className="border-2 border-dashed rounded-lg p-8 text-center">
+      <Link2 className="h-10 w-10 mx-auto mb-3 text-muted-foreground" />
+      <p className="text-sm font-medium text-foreground">Import from Recall.ai</p>
+      <p className="text-xs text-muted-foreground mt-1">
+        Paste meeting URL/ID and add transcript into this flow
+      </p>
+      <div className="mt-3 flex flex-col sm:flex-row items-center gap-2 justify-center">
+        <input
+          type="text"
+          value={recallSource}
+          onChange={(e) => setRecallSource(e.target.value)}
+          placeholder="https://dashboard.recall.ai/... or meeting id"
+          className="w-full sm:w-[360px] h-9 rounded-md border border-border bg-background px-3 text-sm"
+          disabled={isImportingRecall || isUploading}
+        />
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleRecallImport}
+          disabled={isImportingRecall || isUploading || !companyId}
+        >
+          {isImportingRecall ? (
+            <>
+              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+              Importing...
+            </>
+          ) : (
+            "Import from Recall.ai"
+          )}
+        </Button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-background">
       <header className="flex items-center justify-between px-6 py-4 border-b border-border bg-card/80 backdrop-blur">
@@ -116,20 +179,19 @@ export default function UploadExperience() {
             <UploadCloud className="h-5 w-5 text-primary" />
             <div>
               <p className="text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                Transcript Pipeline
+
               </p>
               <p className="text-sm font-semibold">{companyName}</p>
             </div>
           </div>
         </div>
-        <div className="text-xs text-muted-foreground">
-          Upload → unpack → process → review (live backend)
-        </div>
+
       </header>
 
       {step === "select" && (
         <div className="max-w-3xl mx-auto px-6 py-10 space-y-6">
           {dropZone}
+          {recallZone}
 
           {files.length > 0 && (
             <div className="space-y-2">
