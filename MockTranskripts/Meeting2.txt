@@ -1,0 +1,13 @@
+Aryaman: The CEOs confirmed 300 participants. First item: validate sponsor revenue against that number.
+Calista: I ran projections. With current confirmed sponsors, we are within budget even with food buffer and merchandise.
+Tim Farrelly: Including contingency margin?
+Calista: Yes. We maintain a 12% operational margin.
+Aryaman: Perfect. So budget validation is complete.
+Aryaman: Next topic — bracelets. With 300 participants, we need to define a hard cap.
+Oisín: Based on last year’s supplier prices, €400 should be sufficient.
+Calista: That gives us roughly €1.33 per participant.
+Tim Farrelly: That’s acceptable.
+Aryaman: Agreed. Let’s formally approve €400 total for the bracelet budget.
+Aryaman: I will now send a budget approval email to the Operations department so they can proceed with procurement.
+Calista: Include the exact number of participants in that email.
+Aryaman: Yes, and the approved budget ceiling.

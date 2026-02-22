@@ -14,6 +14,11 @@ help:
 	@echo "  make dev-full        - Kill ports, start backend + frontend + ngrok"
 	@echo "  make kill-ports      - Kill processes on ports 8000 and 8080"
 	@echo "  make clean           - Remove venv and cache files"
+	@echo ""
+	@echo "Environment variables for Granola:"
+	@echo "  GRANOLA_COMPANY_ID   - Company ID (default: 1)"
+	@echo "  GRANOLA_WEBHOOK_URL  - Webhook URL (default: http://localhost:8000/api/webhooks/granola)"
+	@echo "  GRANOLA_POLL_INTERVAL - Poll interval in seconds (default: 15)"
 
 # Create virtual environment and install dependencies
 setup:
@@ -84,13 +89,13 @@ dev-full:
 	@make -j3 backend frontend ngrok
 
 # Start Granola transcript watcher
+# Set GRANOLA_COMPANY_ID env var to override the company (default: 1)
 granola-watcher:
 	@echo "Starting Granola watcher..."
 	@echo "Monitoring: ~/Library/Application Support/Granola/cache-v3.json"
 	@echo "Webhook:    http://localhost:8000/api/webhooks/granola"
-	cd $(CURDIR) && ./venv/bin/python scripts/granola_watcher.py \
-		--webhook-url "http://localhost:8000/api/webhooks/granola?company_id=1" \
-		--poll-interval 15
+	@echo "Company ID: $${GRANOLA_COMPANY_ID:-1}"
+	cd $(CURDIR) && ./venv/bin/python scripts/granola_watcher.py
 
 # Start backend + frontend + Granola watcher
 dev-granola:

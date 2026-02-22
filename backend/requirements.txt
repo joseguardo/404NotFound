@@ -21,3 +21,6 @@ audioop-lts>=0.2.1
 
 # Granola watcher dependencies
 requests>=2.31.0
+
+# Email service dependencies
+resend>=2.0.0

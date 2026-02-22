@@ -14,6 +14,7 @@ Usage:
 import logging
 from .base import BaseMCPClient
 from .linear import LinearMCP
+from .miro import MiroMCP
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ logger = logging.getLogger(__name__)
 
 REGISTRY: dict[str, type[BaseMCPClient]] = {
     "linear": LinearMCP,
+    "miro": MiroMCP,
     # "email": EmailMCP,
     # "slack":    SlackMCP,
     # "notion":   NotionMCP,
