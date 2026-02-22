@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { Building2, User, Users, Network } from "lucide-react";
+import { Building2, User, Users, Network, ZoomIn, ZoomOut, Move } from "lucide-react";
 import { api } from "@/services/api";
 import { Department } from "@/components/nexus/types";
 
@@ -23,6 +23,10 @@ type Edge = { from: string; to: string };
 
 export function CompanyGraphDynamic({ companyId, activePeople, className = "" }: CompanyGraphDynamicProps) {
   const [departments, setDepartments] = useState<Department[]>([]);
+  const [zoom, setZoom] = useState(1);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
+  const [isPanning, setIsPanning] = useState(false);
+  const [start, setStart] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     api
@@ -91,16 +95,65 @@ export function CompanyGraphDynamic({ companyId, activePeople, className = "" }:
   const isActiveNode = (label: string) =>
     activeLabels.length === 0 ? false : activeLabels.some((p) => label.toLowerCase().includes(p));
 
+  const handleWheel = (e: React.WheelEvent) => {
+    e.preventDefault();
+    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    setZoom((z) => Math.min(2.5, Math.max(0.5, z + delta)));
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsPanning(true);
+    setStart({ x: e.clientX - offset.x, y: e.clientY - offset.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isPanning) return;
+    setOffset({ x: e.clientX - start.x, y: e.clientY - start.y });
+  };
+
+  const handleMouseUp = () => setIsPanning(false);
+
   return (
     <div
       className={`bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-stone-200 relative overflow-hidden ${className}`}
     >
-      <div className="absolute top-4 left-4 z-10 flex items-center gap-2 text-xs font-semibold text-stone-500 uppercase tracking-wider">
+      <div className="absolute top-4 left-4 z-20 flex items-center gap-2 text-xs font-semibold text-stone-500 uppercase tracking-wider">
         <Network className="h-3.5 w-3.5" />
         Live Org Graph
       </div>
+      <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
+        <button
+          className="h-7 w-7 rounded border border-stone-200 bg-white hover:bg-stone-50 flex items-center justify-center"
+          onClick={() => setZoom((z) => Math.min(2.5, z + 0.2))}
+          aria-label="Zoom in"
+        >
+          <ZoomIn className="h-4 w-4" />
+        </button>
+        <button
+          className="h-7 w-7 rounded border border-stone-200 bg-white hover:bg-stone-50 flex items-center justify-center"
+          onClick={() => setZoom((z) => Math.max(0.5, z - 0.2))}
+          aria-label="Zoom out"
+        >
+          <ZoomOut className="h-4 w-4" />
+        </button>
+        <span className="text-[11px] text-stone-500 font-mono px-2 py-1 rounded border bg-white/80 border-stone-200 flex items-center gap-1">
+          <Move className="h-3.5 w-3.5" />
+          Drag to pan
+        </span>
+      </div>
 
-      <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
+      <svg
+        className="absolute inset-0 w-full h-full z-0 cursor-grab"
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        style={{
+          transform: `translate(${offset.x}px, ${offset.y}px) scale(${zoom})`,
+          transformOrigin: "center",
+        }}
+      >
         {edges.map((edge, i) => {
           const fromNode = nodes.find((n) => n.id === edge.from)!;
           const toNode = nodes.find((n) => n.id === edge.to)!;
@@ -130,19 +183,32 @@ export function CompanyGraphDynamic({ companyId, activePeople, className = "" }:
         return (
           <motion.div
             key={node.id}
-            className={`absolute px-2 py-1 rounded-full border text-xs font-medium shadow-sm transition-all duration-300 ${
-              active ? "border-emerald-500 bg-emerald-50 text-emerald-700 scale-105" : "border-stone-200 bg-white"
-            } ${node.color}`}
-            style={{ left: node.x, top: node.y }}
+            className={`absolute rounded-full border shadow-sm transition-all duration-300 flex items-center justify-center ${
+              active
+                ? "border-emerald-500 bg-emerald-50 text-emerald-700"
+                : "border-stone-200 bg-white text-stone-500"
+            }`}
+            style={{
+              left: node.x,
+              top: node.y,
+              padding: active || node.kind === "dept" ? "6px 10px" : "6px",
+            }}
             animate={{
-              scale: active ? 1.08 : 1,
-              boxShadow: active ? "0 10px 25px rgba(16,185,129,0.2)" : "0 6px 12px rgba(0,0,0,0.06)",
+              scale: active ? 1.1 : 0.9,
+              boxShadow: active ? "0 10px 25px rgba(16,185,129,0.2)" : "0 4px 10px rgba(0,0,0,0.05)",
             }}
           >
-            <div className="flex items-center gap-1.5">
-              {node.kind === "dept" ? <Users className="h-3.5 w-3.5" /> : <Icon className="h-3.5 w-3.5" />}
-              <span className="truncate max-w-[140px]">{node.label}</span>
-            </div>
+            {node.kind === "dept" ? (
+              <div className="flex items-center gap-1.5 text-xs font-semibold">
+                <Users className="h-3.5 w-3.5" />
+                <span className="truncate max-w-[150px]">{node.label}</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1">
+                <Icon className="h-3.5 w-3.5" />
+                {active && <span className="text-[10px] font-semibold truncate max-w-[120px]">{node.label}</span>}
+              </div>
+            )}
           </motion.div>
         );
       })}

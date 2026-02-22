@@ -24,6 +24,7 @@ import {
 } from "lucide-react";
 import { CompanyGraphDynamic } from "./CompanyGraphDynamic";
 import { api, ProcessingResponse } from "@/services/api";
+import { Button } from "@/components/ui/button";
 
 type TaskType = "email" | "call" | "calendar" | "research";
 
@@ -367,50 +368,6 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
           ))}
         </div>
 
-        <div className="absolute top-8 z-50 flex gap-4">
-          {state === "idle" && (
-            <motion.button
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={startDrop}
-              className="bg-stone-900 text-white px-6 py-3 rounded-xl font-medium shadow-lg flex items-center gap-2"
-            >
-              <Box size={20} />
-              Drop Transcript
-            </motion.button>
-          )}
-
-          {state === "reviewing" && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleRecordClick}
-              className="bg-stone-900 text-white px-6 py-3 rounded-xl font-medium shadow-lg flex items-center gap-2"
-            >
-              <Check size={20} />
-              Approve All
-            </motion.button>
-          )}
-
-          {state === "recorded" && (
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={onReset}
-              className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg flex items-center gap-2"
-            >
-              <Sparkles size={20} />
-              Process New Batch
-            </motion.button>
-          )}
-        </div>
-
         <div
           className="relative w-full max-w-4xl h-[600px] flex items-center justify-center"
           style={{ perspective: "1000px" }}
@@ -449,12 +406,12 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                 initial={{ opacity: 0, x: -20, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
                 exit={{ opacity: 0, x: -20, scale: 0.9 }}
-                  className="w-[300px] h-[300px] pointer-events-auto"
-                >
-                  <CompanyGraphDynamic
-                    companyId={companyId}
-                    activePeople={activePeople}
-                    className="w-full h-full"
+                className="w-[460px] h-[420px] pointer-events-auto"
+              >
+                <CompanyGraphDynamic
+                  companyId={companyId}
+                  activePeople={activePeople}
+                  className="w-full h-full"
                   />
                 </motion.div>
 
@@ -462,31 +419,23 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 50 }}
-                  className="bg-white/95 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-stone-200 w-[400px] flex flex-col gap-4 pointer-events-auto"
+                  className="bg-white/95 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-stone-200 w-[520px] flex flex-col gap-5 pointer-events-auto"
                 >
                   <div className="flex justify-between items-center border-b border-stone-100 pb-3">
                     <div>
                       <h3 className="text-lg font-bold">Review Actions</h3>
-                      <p className="text-stone-500 text-xs">{tasks.length} tasks detected</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleRecordClick}
-                        className="bg-stone-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-stone-800 transition-colors flex items-center gap-2"
-                      >
-                        <Check size={16} /> Approve All
-                      </button>
+                      <p className="text-stone-500 text-xs">{tasks.length} actions detected</p>
                     </div>
                   </div>
 
-                  <div className="max-h-48 overflow-y-auto space-y-2 pr-1">
+                  <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
                     {tasks.map((task) => (
                       <div
                         key={task.id}
                         onClick={() => toggleTaskSelection(task.id)}
                         onMouseEnter={() => {
                           setActiveGraphTaskId(task.id);
-                          setActivePeople(task.people || []);
+                          setActivePeople((task.people || []).slice(0, 2));
                         }}
                         onMouseLeave={() => {
                           setActiveGraphTaskId(null);
@@ -508,9 +457,35 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                           >
                             {selectedTaskIds.has(task.id) && <Check size={10} className="text-white" />}
                           </div>
-                          <div>
+                          <div className="space-y-1">
                             <p className="text-sm font-medium text-stone-800">{task.title}</p>
-                            <p className="text-[10px] text-stone-500 uppercase">{task.type}</p>
+                            <div className="flex items-center gap-2">
+                              {(task.people || []).slice(0, 2).map((name, idx) => {
+                                const initials = name
+                                  .split(" ")
+                                  .map((n) => n[0])
+                                  .join("")
+                                  .slice(0, 2)
+                                  .toUpperCase();
+                                return (
+                                  <span
+                                    key={`${task.id}-p-${idx}`}
+                                    className="w-7 h-7 rounded-full bg-muted text-foreground text-xs font-semibold inline-flex items-center justify-center"
+                                  >
+                                    {initials || "?"}
+                                  </span>
+                                );
+                              })}
+                              <input
+                                type="checkbox"
+                                checked={selectedTaskIds.has(task.id)}
+                                onChange={(e) => {
+                                  e.stopPropagation();
+                                  toggleTaskSelection(task.id);
+                                }}
+                                className="h-4 w-4 border border-stone-300 rounded"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -535,12 +510,19 @@ export function TaskUnpacker({ companyId, tasks: uploadedTasks, onReset }: TaskU
                       disabled={selectedTaskIds.size === 0}
                       className="flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Trash2 size={14} /> Delete
-                    </button>
-                  </div>
-                </motion.div>
-              </div>
-            )}
+                    <Trash2 size={14} /> Delete
+                  </button>
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <Button onClick={handleRecordClick} className="gap-2">
+                    <Check size={14} />
+                    Approve & Continue
+                  </Button>
+                </div>
+              </motion.div>
+            </div>
+          )}
           </AnimatePresence>
 
           <div className="relative w-full h-full flex items-center justify-center">
