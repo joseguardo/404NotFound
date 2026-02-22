@@ -306,6 +306,13 @@ export default function NexusApp({
             )}`
           )
         }
+        onOverviewClick={() =>
+          navigate(
+            `/app/meeting-overview?companyId=${company.id}&companyName=${encodeURIComponent(
+              company.company_name || "Organization"
+            )}`
+          )
+        }
         companyName={company.company_name || "Untitled Company"}
         onBack={onBack}
         onSave={handleSaveToCloud}

@@ -7,6 +7,7 @@ import LandingPage from "./pages/LandingPage";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import UploadExperience from "./pages/UploadExperience";
+import MeetingOverview from "./pages/MeetingOverview";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<LandingPage />} />
           <Route path="/app" element={<Index />} />
           <Route path="/app/upload-experience" element={<UploadExperience />} />
+          <Route path="/app/meeting-overview" element={<MeetingOverview />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -2,6 +2,12 @@ import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Separator } from "@/components/ui/separator";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Plus,
   Orbit,
   LayoutGrid,
@@ -14,6 +20,7 @@ import {
   Loader2,
   Sun,
   Moon,
+  ChevronDown,
   Upload,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
@@ -27,6 +34,7 @@ interface TopBarProps {
   onViewChange: (view: ViewMode) => void;
   onCreateClick: () => void;
   onUploadClick: () => void;
+  onOverviewClick: () => void;
   companyName?: string;
   onBack?: () => void;
   onSave?: () => void;
@@ -41,6 +49,7 @@ export function TopBar({
   onViewChange,
   onCreateClick,
   onUploadClick,
+  onOverviewClick,
   companyName,
   onBack,
   onSave,
@@ -144,16 +153,21 @@ export function TopBar({
           )}
         </Button>
 
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onUploadClick}
-          className="gap-1.5 text-xs"
-          aria-label="Upload transcripts"
-        >
-          <Upload className="h-3.5 w-3.5" />
-          <span className="hidden sm:inline uppercase tracking-wide">Upload</span>
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm" className="gap-1.5 text-xs" aria-label="Meeting menu">
+              <span className="uppercase tracking-wide">Meeting</span>
+              <ChevronDown className="h-3.5 w-3.5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="min-w-40">
+            <DropdownMenuItem onClick={onUploadClick} className="gap-2">
+              <Upload className="h-3.5 w-3.5" />
+              <span>Upload 📤</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={onOverviewClick}>Overview</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <Button
           variant="neon"
