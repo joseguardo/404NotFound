@@ -6,8 +6,15 @@ them as webhook POSTs to your backend.
 
 Usage:
     python scripts/granola_watcher.py
-    python scripts/granola_watcher.py --webhook-url http://localhost:8000/api/webhooks/granola?company_id=1
+    python scripts/granola_watcher.py --company-id 5
+    python scripts/granola_watcher.py --webhook-url http://localhost:8000/api/webhooks/granola --company-id 2
     python scripts/granola_watcher.py --poll-interval 10
+
+Environment Variables:
+    GRANOLA_WEBHOOK_URL   - Base webhook URL (default: http://localhost:8000/api/webhooks/granola)
+    GRANOLA_COMPANY_ID    - Company ID to associate transcripts with (default: 1)
+    GRANOLA_POLL_INTERVAL - Poll interval in seconds (default: 15)
+    GRANOLA_WEBHOOK_SECRET - Webhook secret for signature verification
 """
 
 import json
@@ -25,12 +32,13 @@ from datetime import datetime, timezone
 import requests
 
 # ---------------------------------------------------------------------------
-# Config & defaults
+# Config & defaults (can be overridden by environment variables)
 # ---------------------------------------------------------------------------
 
-DEFAULT_WEBHOOK_URL = "http://localhost:8000/api/webhooks/granola"
-DEFAULT_POLL_INTERVAL = 15  # seconds
-DEFAULT_WEBHOOK_SECRET = "change-me-in-production"
+DEFAULT_WEBHOOK_URL = os.getenv("GRANOLA_WEBHOOK_URL", "http://localhost:8000/api/webhooks/granola")
+DEFAULT_COMPANY_ID = os.getenv("GRANOLA_COMPANY_ID", "1")
+DEFAULT_POLL_INTERVAL = int(os.getenv("GRANOLA_POLL_INTERVAL", "15"))
+DEFAULT_WEBHOOK_SECRET = os.getenv("GRANOLA_WEBHOOK_SECRET", "change-me-in-production")
 
 logging.basicConfig(
     level=logging.INFO,
@@ -212,6 +220,12 @@ def watch(cache_path: Path, webhook_url: str, poll_interval: int, secret: str):
     log.info("Granola watcher stopped.")
 
 
+def build_webhook_url(base_url: str, company_id: str) -> str:
+    """Build the full webhook URL with company_id query parameter."""
+    separator = "&" if "?" in base_url else "?"
+    return f"{base_url}{separator}company_id={company_id}"
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="Watch Granola for new transcripts and send webhooks"
@@ -219,7 +233,12 @@ def main():
     parser.add_argument(
         "--webhook-url",
         default=DEFAULT_WEBHOOK_URL,
-        help=f"Webhook URL (default: {DEFAULT_WEBHOOK_URL})",
+        help=f"Base webhook URL (default: {DEFAULT_WEBHOOK_URL})",
+    )
+    parser.add_argument(
+        "--company-id",
+        default=DEFAULT_COMPANY_ID,
+        help=f"Company ID to associate transcripts with (default: {DEFAULT_COMPANY_ID})",
     )
     parser.add_argument(
         "--poll-interval",
@@ -242,7 +261,10 @@ def main():
     args = parser.parse_args()
     cache_path = args.cache_path or get_cache_path()
 
-    watch(cache_path, args.webhook_url, args.poll_interval, args.secret)
+    # Build full webhook URL with company_id
+    webhook_url = build_webhook_url(args.webhook_url, args.company_id)
+
+    watch(cache_path, webhook_url, args.poll_interval, args.secret)
 
 
 if __name__ == "__main__":

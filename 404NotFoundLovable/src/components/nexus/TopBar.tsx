@@ -15,6 +15,7 @@ import {
   Sun,
   Moon,
   Upload,
+  Sparkles,
 } from "lucide-react";
 import { useTheme } from "@/hooks/use-theme";
 import { ViewMode } from "./types";
@@ -27,6 +28,7 @@ interface TopBarProps {
   onViewChange: (view: ViewMode) => void;
   onCreateClick: () => void;
   onUploadClick: () => void;
+  onGranolaClick?: () => void;
   companyName?: string;
   onBack?: () => void;
   onSave?: () => void;
@@ -41,6 +43,7 @@ export function TopBar({
   onViewChange,
   onCreateClick,
   onUploadClick,
+  onGranolaClick,
   companyName,
   onBack,
   onSave,
@@ -154,6 +157,19 @@ export function TopBar({
           <Upload className="h-3.5 w-3.5" />
           <span className="hidden sm:inline uppercase tracking-wide">Upload</span>
         </Button>
+
+        {onGranolaClick && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onGranolaClick}
+            className="gap-1.5 text-xs border-green-500/30 text-green-600 hover:bg-green-500/10 hover:text-green-500"
+            aria-label="View Granola meetings"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline uppercase tracking-wide">Granola</span>
+          </Button>
+        )}
 
         <Button
           variant="neon"

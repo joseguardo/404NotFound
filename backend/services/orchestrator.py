@@ -30,6 +30,9 @@ from raw file to persisted actions in the database.
 #       |
 #       v
 #   Stage 6: Persist to Database (linked -> persistence summary)
+#       |
+#       v
+#   Stage 7: Dispatch Communications (linked -> email/call notifications)
 #
 # OUTPUT:
 #   PipelineResult
@@ -40,6 +43,7 @@ from raw file to persisted actions in the database.
 #       projects: List[Project]
 #       linked_projects: List[LinkedProject]
 #       persistence_results: List[dict]
+#       dispatch_result: DispatchResult
 #       execution_time: float
 #       stage_times: dict
 #       error: Optional[str]
@@ -65,6 +69,7 @@ from backend.services.identify_existing_project import ProjectMatcher
 from backend.services.action_extraction import ActionExtractor
 from backend.services.action_sequence import ActionSequencer
 from backend.services.persist_actions_supabase import ActionPersister
+from backend.services.action_dispatcher import ActionDispatcher, DispatchResult
 
 
 @dataclass
@@ -82,6 +87,7 @@ class PipelineResult:
     projects: Optional[List[Project]] = None
     linked_projects: Optional[List[LinkedProject]] = None
     persistence_results: Optional[List[dict]] = None
+    dispatch_result: Optional[DispatchResult] = None
 
     # Metrics
     execution_time: float = 0.0
@@ -123,6 +129,27 @@ class PipelineResult:
             return sum(1 for t in self.resolved_topics if not t.is_new_project)
         return 0
 
+    @property
+    def total_tickets_created(self) -> int:
+        """Total number of Linear tickets created."""
+        if self.dispatch_result:
+            return self.dispatch_result.tickets_created
+        return 0
+
+    @property
+    def total_emails_sent(self) -> int:
+        """Total number of emails sent."""
+        if self.dispatch_result:
+            return self.dispatch_result.emails_sent
+        return 0
+
+    @property
+    def total_calls_made(self) -> int:
+        """Total number of calls made."""
+        if self.dispatch_result:
+            return self.dispatch_result.calls_made
+        return 0
+
 
 class TranscriptOrchestrator:
     """
@@ -150,6 +177,7 @@ class TranscriptOrchestrator:
         self.action_extractor = ActionExtractor()
         self.action_sequencer = ActionSequencer()
         self.action_persister = ActionPersister()
+        self.action_dispatcher = ActionDispatcher()
 
     # --- Main Entry Points ---
 
@@ -196,6 +224,11 @@ class TranscriptOrchestrator:
             stage_start = time.time()
             result.persistence_results = self.persist(result.linked_projects)
             result.stage_times["persist"] = time.time() - stage_start
+
+            # Stage 7: Dispatch communications
+            stage_start = time.time()
+            result.dispatch_result = self.dispatch_actions(result.linked_projects)
+            result.stage_times["dispatch_actions"] = time.time() - stage_start
 
             result.success = True
 
@@ -244,6 +277,11 @@ class TranscriptOrchestrator:
             stage_start = time.time()
             result.persistence_results = self.persist(result.linked_projects)
             result.stage_times["persist"] = time.time() - stage_start
+
+            # Stage 7: Dispatch communications
+            stage_start = time.time()
+            result.dispatch_result = self.dispatch_actions(result.linked_projects)
+            result.stage_times["dispatch_actions"] = time.time() - stage_start
 
             result.success = True
 
@@ -329,6 +367,25 @@ class TranscriptOrchestrator:
             List of persistence summaries
         """
         return self.action_persister.persist_all(linked_projects, self.company_id)
+
+    def dispatch_actions(self, linked_projects: List[LinkedProject]) -> DispatchResult:
+        """
+        Stage 7: Dispatch communications based on action urgency.
+
+        For each project, finds the first action (no dependencies) and
+        routes it to email/call based on urgency level:
+            - VERY HIGH: Email + Call
+            - HIGH: Call only
+            - MEDIUM: Email only
+            - LOW: No communication
+
+        Args:
+            linked_projects: List of linked projects
+
+        Returns:
+            DispatchResult with communication summaries
+        """
+        return self.action_dispatcher.dispatch(linked_projects)
 
 
 # Convenience function
@@ -427,6 +484,28 @@ if __name__ == "__main__":
             print(f"  Time: {result.stage_times.get('persist', 0):.2f}s")
             print()
 
+        # Stage 7: Dispatch
+        if result.dispatch_result:
+            print(f"Stage 7 - Action Dispatch:")
+            print(f"  Tickets created: {result.dispatch_result.tickets_created}")
+            print(f"  Emails sent: {result.dispatch_result.emails_sent}")
+            print(f"  Calls made: {result.dispatch_result.calls_made}")
+            if result.dispatch_result.ticket_results:
+                print(f"  Ticket details:")
+                for tr in result.dispatch_result.ticket_results:
+                    status_icon = "+" if tr.status == "created" else "-"
+                    print(f"    {status_icon} {tr.project_name}: {tr.status}")
+            if result.dispatch_result.email_results:
+                print(f"  Email details:")
+                for er in result.dispatch_result.email_results:
+                    print(f"    - {er.project_name}: {er.status}")
+            if result.dispatch_result.call_results:
+                print(f"  Call details:")
+                for cr in result.dispatch_result.call_results:
+                    print(f"    - {cr.project_name}: {cr.status}")
+            print(f"  Time: {result.stage_times.get('dispatch_actions', 0):.2f}s")
+            print()
+
         # Summary
         print("-" * 60)
         print("SUMMARY")
@@ -435,6 +514,9 @@ if __name__ == "__main__":
         print(f"  Topics identified: {result.total_topics}")
         print(f"  Projects created/updated: {result.total_projects}")
         print(f"  Actions persisted: {result.total_actions}")
+        print(f"  Linear tickets: {result.total_tickets_created}")
+        print(f"  Emails sent: {result.total_emails_sent}")
+        print(f"  Calls made: {result.total_calls_made}")
 
     else:
         print("Status: FAILED")

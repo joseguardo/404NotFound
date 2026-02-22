@@ -70,6 +70,25 @@ export interface UploadResponse {
   files: { filename: string; size: number; path: string }[];
 }
 
+export interface GranolaResult {
+  document_id: string;
+  meeting_title: string;
+  processed_at: string;
+  success: boolean;
+  error?: string;
+  execution_time: number;
+  total_topics: number;
+  total_projects: number;
+  total_actions: number;
+  projects: ProjectResponse[];
+}
+
+export interface GranolaHealth {
+  status: string;
+  processed_count: number;
+  stored_results: number;
+}
+
 // ─── Transform Helpers ──────────────────────────────────────────────────────
 
 function splitName(fullName: string): { name: string; surname: string } {
@@ -276,6 +295,29 @@ export const api = {
       throw new Error(error.detail || "Failed to process transcript");
     }
 
+    return res.json();
+  },
+
+  // ─── Granola ─────────────────────────────────────────────────────────────
+
+  async getGranolaResults(limit: number = 10, since?: string): Promise<GranolaResult[]> {
+    const params = new URLSearchParams({ limit: limit.toString() });
+    if (since) params.append("since", since);
+
+    const res = await fetch(`${API_BASE}/webhooks/granola/results?${params}`);
+    if (!res.ok) throw new Error("Failed to fetch Granola results");
+    return res.json();
+  },
+
+  async getGranolaResult(documentId: string): Promise<GranolaResult> {
+    const res = await fetch(`${API_BASE}/webhooks/granola/results/${documentId}`);
+    if (!res.ok) throw new Error("Granola result not found");
+    return res.json();
+  },
+
+  async getGranolaHealth(): Promise<GranolaHealth> {
+    const res = await fetch(`${API_BASE}/webhooks/granola/health`);
+    if (!res.ok) throw new Error("Failed to fetch Granola health");
     return res.json();
   },
 

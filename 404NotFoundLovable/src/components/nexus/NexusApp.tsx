@@ -23,6 +23,7 @@ import {
   CreatePersonModal,
   ConnectionPicker,
   TranscriptUploadModal,
+  GranolaResultsModal,
 } from "./Modals";
 import { Department } from "./types";
 import { Company } from "@/services/api";
@@ -100,6 +101,7 @@ export default function NexusApp({
   const [createPersonOpen, setCreatePersonOpen] = useState(false);
   const [connPickerOpen, setConnPickerOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
+  const [granolaModalOpen, setGranolaModalOpen] = useState(false);
   const [targetDeptId, setTargetDeptId] = useState<string | null>(null);
   const [targetDeptName, setTargetDeptName] = useState("");
 
@@ -298,6 +300,7 @@ export default function NexusApp({
         onViewChange={setView}
         onCreateClick={() => setCmdOpen(true)}
         onUploadClick={() => setUploadModalOpen(true)}
+        onGranolaClick={() => setGranolaModalOpen(true)}
         companyName={company.company_name || "Untitled Company"}
         onBack={onBack}
         onSave={handleSaveToCloud}
@@ -388,6 +391,13 @@ export default function NexusApp({
         onOpenChange={setUploadModalOpen}
         companyId={company.id}
         onUploadComplete={handleTranscriptComplete}
+      />
+
+      {/* Granola results modal - polls for new meeting transcripts */}
+      <GranolaResultsModal
+        open={granolaModalOpen}
+        onOpenChange={setGranolaModalOpen}
+        pollInterval={5000}
       />
 
       {/* Person panel */}

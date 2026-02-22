@@ -4,3 +4,4 @@ export { CreateDepartmentModal } from "./CreateDepartmentModal";
 export { CreatePersonModal } from "./CreatePersonModal";
 export { ConnectionPicker } from "./ConnectionPicker";
 export { TranscriptUploadModal } from "./TranscriptUploadModal";
+export { GranolaResultsModal } from "./GranolaResultsModal";
