@@ -1,0 +1,77 @@
+[
+  {
+    "id": 1,
+    "extraction_class": "action_item",
+    "extraction_text": "Daniel Kim will confirm bracelet requirements (counts per tier, sizes, colors) and share the final requirements doc with the team by Monday.",
+    "attributes": {
+      "timestamp": null,
+      "content": "Confirm bracelet requirements and publish requirements doc",
+      "timeframe": "by Monday",
+      "related_actions": ["Budget approval", "Artwork proof", "Vendor quotes"],
+      "relevant_people": ["Daniel Kim"],
+      "department": "Operations",
+      "project": "Hackathon Bracelets"
+    },
+    "depends_on": []
+  },
+  {
+    "id": 2,
+    "extraction_class": "action_item",
+    "extraction_text": "Brianna Patel will get budget approval for the bracelet purchase and confirm the maximum spend by Tuesday.",
+    "attributes": {
+      "timestamp": null,
+      "content": "Secure budget approval and confirm max spend",
+      "timeframe": "by Tuesday",
+      "related_actions": ["Vendor quotes", "Place order"],
+      "relevant_people": ["Brianna Patel"],
+      "department": "Finance",
+      "project": "Hackathon Bracelets"
+    },
+    "depends_on": []
+  },
+  {
+    "id": 3,
+    "extraction_class": "action_item",
+    "extraction_text": "Alice Nguyen will create the bracelet artwork proof (logo + text) after requirements are finalized, and deliver the print-ready file by Wednesday.",
+    "attributes": {
+      "timestamp": null,
+      "content": "Create bracelet artwork proof and deliver print-ready file",
+      "timeframe": "by Wednesday",
+      "related_actions": ["Vendor quotes"],
+      "relevant_people": ["Alice Nguyen"],
+      "department": "Design",
+      "project": "Hackathon Bracelets"
+    },
+    "depends_on": []
+  },
+  {
+    "id": 4,
+    "extraction_class": "action_item",
+    "extraction_text": "Carlos Mendes will request vendor quotes and confirm production timeline once budget and artwork are ready, then send the recommended vendor option to the team.",
+    "attributes": {
+      "timestamp": null,
+      "content": "Collect vendor quotes, confirm timeline, and recommend a vendor",
+      "timeframe": null,
+      "related_actions": ["Place order"],
+      "relevant_people": ["Carlos Mendes"],
+      "department": "Procurement",
+      "project": "Hackathon Bracelets"
+    },
+    "depends_on": []
+  },
+  {
+    "id": 5,
+    "extraction_class": "action_item",
+    "extraction_text": "Sofia Rossi will place the bracelet order with the selected vendor after the quote is approved, and confirm the delivery date with organizers.",
+    "attributes": {
+      "timestamp": null,
+      "content": "Place bracelet order and confirm delivery date",
+      "timeframe": null,
+      "related_actions": [],
+      "relevant_people": ["Sofia Rossi"],
+      "department": "Organizing",
+      "project": "Hackathon Bracelets"
+    },
+    "depends_on": []
+  }
+]
