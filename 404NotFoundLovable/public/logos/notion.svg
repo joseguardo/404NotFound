@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <g transform="translate(15, 5)">
+    <!-- Notion cube logo -->
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M5 15 L25 5 L45 15 L45 35 L25 45 L5 35 Z" stroke="#666"/>
+      <path d="M5 15 L25 25 L45 15" stroke="#666"/>
+      <path d="M25 25 L25 45" stroke="#666"/>
+    </g>
+    <text x="18" y="33" font-family="Georgia, serif" font-size="20" font-style="italic" fill="#666">N</text>
+  </g>
+  <!-- Text "Notion" -->
+  <text x="70" y="40" font-family="Georgia, serif" font-size="28" fill="#666">Notion</text>
+</svg>

@@ -1,14 +1,17 @@
-.PHONY: setup install backend frontend dev clean help
+.PHONY: setup install backend frontend dev dev-full clean help kill-ports ngrok
 
 # Default target
 help:
 	@echo "Available commands:"
-	@echo "  make setup     - Create venv and install dependencies"
-	@echo "  make install   - Install dependencies (assumes venv exists)"
-	@echo "  make backend   - Start FastAPI backend (port 8000)"
-	@echo "  make frontend  - Start Vite frontend (port 8080)"
-	@echo "  make dev       - Start both backend and frontend"
-	@echo "  make clean     - Remove venv and cache files"
+	@echo "  make setup      - Create venv and install dependencies"
+	@echo "  make install    - Install dependencies (assumes venv exists)"
+	@echo "  make backend    - Start FastAPI backend (port 8000)"
+	@echo "  make frontend   - Start Vite frontend (port 8080)"
+	@echo "  make ngrok      - Start ngrok tunnel (port 8000)"
+	@echo "  make dev        - Kill ports, start backend + frontend"
+	@echo "  make dev-full   - Kill ports, start backend + frontend + ngrok"
+	@echo "  make kill-ports - Kill processes on ports 8000 and 8080"
+	@echo "  make clean      - Remove venv and cache files"
 
 # Create virtual environment and install dependencies
 setup:
@@ -36,14 +39,47 @@ frontend:
 	@echo "Starting Vite frontend on http://localhost:8080"
 	cd 404NotFoundLovable && npm run dev
 
+# Kill processes on common ports
+kill-ports:
+	@echo "Killing processes on ports 8000 and 8080..."
+	-@lsof -ti :8000 | xargs kill -9 2>/dev/null || true
+	-@lsof -ti :8080 | xargs kill -9 2>/dev/null || true
+	@echo "Ports cleared."
+
+# Start ngrok tunnel
+ngrok:
+	@echo "Starting ngrok tunnel on port 8000..."
+	ngrok http 8000
+
 # Start both backend and frontend (requires two terminals or background processes)
 dev:
+	@echo "Killing existing processes on ports 8000 and 8080..."
+	-@lsof -ti :8000 | xargs kill -9 2>/dev/null || true
+	-@lsof -ti :8080 | xargs kill -9 2>/dev/null || true
+	@sleep 1
+	@echo ""
 	@echo "Starting development servers..."
-	@echo "Backend: http://localhost:8000"
+	@echo "Backend:  http://localhost:8000"
 	@echo "Frontend: http://localhost:8080"
+	@echo "Ngrok:    Run 'make ngrok' in another terminal for Twilio webhooks"
 	@echo ""
 	@echo "Press Ctrl+C to stop"
 	@make -j2 backend frontend
+
+# Start everything including ngrok (opens 3 processes)
+dev-full:
+	@echo "Killing existing processes on ports 8000 and 8080..."
+	-@lsof -ti :8000 | xargs kill -9 2>/dev/null || true
+	-@lsof -ti :8080 | xargs kill -9 2>/dev/null || true
+	@sleep 1
+	@echo ""
+	@echo "Starting all development servers + ngrok..."
+	@echo "Backend:  http://localhost:8000"
+	@echo "Frontend: http://localhost:8080"
+	@echo "Ngrok:    Check terminal output for public URL"
+	@echo ""
+	@echo "Press Ctrl+C to stop all"
+	@make -j3 backend frontend ngrok
 
 # Clean up
 clean:

@@ -1,7 +1,13 @@
 from pydantic import BaseModel
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, List, Literal
 from datetime import datetime
+
+
+# ─── Type Definitions ───────────────────────────────────────────────────────────
+
+UrgencyLevel = Literal["VERY HIGH", "HIGH", "MEDIUM", "LOW"]
+ResponseType = Literal["both", "call", "email", "none"]
 
 
 # ─── Request Models ──────────────────────────────────────────────────────────
@@ -159,3 +165,73 @@ class ResolvedTopic(BaseModel):
     project_name: str
     topic_information: str
     is_new_project: bool
+
+
+# ─── Action Extraction Models ──────────────────────────────────────────────────
+
+
+class Action(BaseModel):
+    """A single granular action extracted from project info."""
+
+    description: str
+    people: Optional[List[str]] = None
+    department: str  # Required - LLM must always assign a department
+    urgency: UrgencyLevel  # Required - LLM must assess urgency
+
+
+class ActionList(BaseModel):
+    """LLM output: list of extracted actions."""
+
+    actions: List[Action]
+
+
+class Project(BaseModel):
+    """Final project with extracted actions."""
+
+    name: str
+    actions: List[Action]
+
+
+# ─── Dependency Linking Models ─────────────────────────────────────────────────
+
+DependencyReason = Literal[
+    "explicit_prerequisite",  # "after", "once", "until", "needs", "requires"
+    "information_handoff",    # One action produces info needed by another
+    "approval_gate",          # Requires sign-off before proceeding
+    "resource_dependency",    # Shares resource/vendor
+    "logical_sequence",       # Logically must come first
+]
+
+
+class DependencyEdge(BaseModel):
+    """LLM output: a dependency edge between actions."""
+
+    from_idx: int  # Index of prerequisite action
+    to_idx: int    # Index of blocked action
+    reason: DependencyReason
+    confidence: float  # 0.0 to 1.0
+    evidence: str      # Quote from action descriptions
+
+
+class DependencyResult(BaseModel):
+    """LLM output: all edges for a project."""
+
+    edges: List[DependencyEdge]
+
+
+class LinkedAction(BaseModel):
+    """Action with dependency information."""
+
+    description: str
+    people: Optional[List[str]] = None
+    department: str
+    urgency: UrgencyLevel
+    depends_on: List[int] = []  # Indices of prerequisite actions
+    response_type: ResponseType  # Derived from urgency level
+
+
+class LinkedProject(BaseModel):
+    """Project with linked actions."""
+
+    name: str
+    actions: List[LinkedAction]

@@ -12,3 +12,9 @@ chardet>=5.0.0
 
 # LLM dependencies
 openai>=1.0.0
+anthropic>=0.42.0
+
+# Phone agent dependencies
+websockets>=13.1
+twilio>=9.4.0
+audioop-lts>=0.2.1

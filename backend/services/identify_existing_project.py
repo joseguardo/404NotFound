@@ -51,17 +51,20 @@ class ProjectMatcher:
         Fetch all projects where alive=True from Supabase.
 
         Args:
-            company_id: Optional company ID to filter projects
+            company_id: Optional company ID to filter projects (unused until column is added)
 
         Returns:
             List of ExistingProject objects
         """
-        query = db.client.table("Projects").select("id, name").eq("alive", True)
+        # Note: company_id filtering disabled until the column is added to Projects table
+        _ = company_id  # Suppress unused parameter warning
 
-        if company_id:
-            query = query.eq("company_id", company_id)
-
-        response = query.execute()
+        response = (
+            db.client.table("Projects")
+            .select("id, name")
+            .eq("alive", True)
+            .execute()
+        )
 
         return [ExistingProject(**p) for p in response.data]
 
