@@ -1,12 +1,20 @@
-# 404NotFound - HackEurope Paris (21-22 February 2026)
+# 404NotFound - HackEurope Paris 
 
-**HackEurope Paris**
+---
+
+## HackEurope Paris (21-22 February 2026)
+
 GitHub repo: https://github.com/joseguardo/404NotFound 
+
 HackEurope platform: https://app.hackeurope.eu/dashboard 
+
 DevPost submission system: https://devpost.com/software/404notmissing https://hackeurope.devpost.com/ 
+
 Discord: https://discord.com/channels/1469389295545749514 
 
-**Intelligent meeting action extraction and organizational structure management.**
+---
+
+## 404NotFound Intelligent meeting action extraction and organizational structure management.
 
 404NotFound turns meeting transcripts into structured, actionable outcomes. Upload a transcript (or connect Granola/Recall.ai), and the system automatically extracts action items, identifies urgency, assigns them to the right people, and dispatches communications via email, phone call, or Linear ticket.
 
